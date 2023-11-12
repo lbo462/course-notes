@@ -103,6 +103,8 @@ But for the simple SMS you sent, there's no need.
 | Core Network Controller (CNC) | Connected to multiple DB, process every incoming packets in the Core Network           | Does not exist                         | Does not exist                   | Access and Mobility Management Function (AMF) | Mobility Management Entity (MME) |
 | Out gateway                   | Gateway to other operators. Connected to a DHCP server and have NAT functions for IPv4 | Gateway Mobile Switching Center (gMSC) | Gateway GPRS Support Node (GGSN) | Packet Data Network Gateway (P-GW)            | User Plane Function (UPF)        |
 
+![](images/sms-cn.jpg)
+
 > **Wait**, should your SMS really get out by the out gateway ?
 > Why the CNC sent your SMS to the out gateway ?
 >
