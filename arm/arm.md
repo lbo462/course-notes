@@ -11,7 +11,7 @@ Because mobile network are no fun without stories, let's start a new one.
 
 ## User Domain
 
-Your name's Alicia and you possess a mobile phone. Here, your mobile phone will be referred as a *mobile station* (**MS**). In your phone, there's a **SIM** (*Subscriber Identify Module*) card.
+Your name's Alicia and you possess a mobile phone. Here, your mobile phone will be referred as a *mobile station* (**MS**) or more globally, a *user equipment* (**UE**). In your phone, there's a **SIM** (*Subscriber Identify Module*) card.
 
 > uSIM and eSIM stands for *universal SIM* and *electronic SIM* and are just newer version of the good old SIM.
 
@@ -54,11 +54,15 @@ Now, what happens ? Your SMS was correctly received by the BST that sent it to i
 > What's the entrypoint of the CN ?
 
 The BSC is connected to a **MSC**, a *Mobile Switching Center* which is basically a big switch that receives multiple packets from multiple BSC.
-A most common name is *service gateway*. MSC was the device used in 2G.
+A most common name is *service gateway*. The MSC was the device used in 2G. In 3G, this device was a **SGSN**, a *Serving GPRS Support Node*.
+
+In 4G, this device was a **S-GW**, i.e. a *Serving GateWay* and in 5G, it was an **UPF**, i.e. an *User Plane Function*.
 
 After receiving a packet, it transmits it to the CN big boss : the **CNC**, the *Core Network Controller* 🤴.
 
-> Note that the CNC only exists since the 3G. Before that, its functions were handled by the MSC and the gMSC, which we'll talk about later. 
+In 4G, the CNC was a **MME** (*Mobility Management Entity*). In 5G, this device was an **AMF** (*Access and Mobility Management Function*). 
+
+> Note that the CNC only exists since the 4G. Before that, its functions were handled by the service gateway and the out gateway, which we'll talk about later. 
 
 The CNC is a very expensive device 💸💸. There are few CNC over the country and they process every single packet of the mobile network.
 
@@ -77,12 +81,20 @@ The CNC has a very important role and is connected to multiple databases and rou
 > The Auc sends a **RAND** (RANDom) which a random vector corresponding to the challenge. The MS (Mobile Station) answers with a **SRES** (*Signed RESponse*). 
 > If the response is the correct response for the given challenge, the AuC returns its information from the Location DB.
 
-The CNC can now send your SMS to the *out gateway* (the **gMSC** we talk previously), which is basically a router.
+The CNC can now send your SMS to the *out gateway*, which is basically a router. In 2G, this device was a **gMSC** (*gateway Mobile Switching Center*) and in 3G, it was a **GGSN** (*Gateway GPRS Support Node*). They provided the CNC function. In 4G, this device becomes a **P-GW** (*Packet Data Network Gateway*). In 5G, it's an UPF, the same as the service gateway.
 
 > For IPv4, the out gateway provides NAT functions.
 
 This router is connected to a DHCP server. That's where an IP address can be given to your mobile station (your phone).
 But for the simple SMS you sent, there's no need.
+
+> We've seen three different devices for different generations with a lot of acronyms. Let's make a quick recap.
+
+| Common name                   | Description                                                                            | 2G                                     | 3G                               | 4G                                            | 5G                               |
+| ----------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------- | -------------------------------- | --------------------------------------------- | -------------------------------- |
+| Service gateway               | Router on the RAN side, connected to a lot of base stations                            | Mobile Switching Center (MSC)          | Serving GPRS Support Node (SGSN) | Serving Gateway (S-GW)                        | User Plane Function (UPF)        |
+| Core Network Controller (CNC) | Connected to multiple DB, process every incoming packets in the Core Network           | Does not exist                         | Does not exist                   | Access and Mobility Management Function (AMF) | Mobility Management Entity (MME) |
+| Out gateway                   | Gateway to other operators. Connected to a DHCP server and have NAT functions for IPv4 | Gateway Mobile Switching Center (gMSC) | Gateway GPRS Support Node (GGSN) | Packet Data Network Gateway (P-GW)            | User Plane Function (UPF)        |
 
 > **Wait**, should your SMS really get out by the out gateway ?
 > Why the CNC sent your SMS to the out gateway ?
@@ -102,49 +114,49 @@ To say that in simple terms, it follows the same path but in reverse, in the rec
 
 Will you be brave enough to know them all ?
 
-| Acronym | Full name |
-| ------- | --------- |
-| MS      | Mobile Station |
-| SIM     | Subscriber Identify Module |
-| uSIM    | Universal SIM |
-| eSIM    | Electronic SIM |
-| MSISDN  | Mobile Station International Subscriber Directory Number
-| IMSI    | International Mobile Subscriber Identity |
-| TMSI    | Temporary Mobile Subscriber Identity |
-| IMEI    | International Mobile Equipment Identity |
-| RNTI    | Radio Network Temporary Identifier |
-| BS      | Base Station |
-| BTS     | Base Transceiver Station |
-| BSC     | Base Station Controller |
-| RNC     | Radio Network Controller |
-| RRH     | Remote Radio Head |
-| BBU     | Base Band Unit |
-| MSC     | Mobile Switching Center |
-| GMSC    | Gateway MSC |
-| GPRS    | General Packet Radio Service |
-| SGCN    | Serving GPRS Support Node |
-| GGSN    | Gateway GPRS Support Node |
-| S-GW    | Serving Gateway |
-| P-GW    | Packet Data Network Gateway |
-| AMF     | Access and Mobility Management Function |
-| UPF     | User Plane Function |
-| MME     | Mobility Management Entity |
-| HLR     | Home Location Register |
-| HSS     | Home Subscriber Server |
-| LTE     | Long-Term Evolution |
-| SMS     | Short Media Service |
-| MMS     | Multimedia Messaging Service |
-| IMS     | IP Multimedia Subsystem |
-| VoIP    | Voice over IP |
-| RRC     | Radio Resource Control |
-| RLC     | Radio Link Control |
-| PDCP    | Packet Data Convergence Protocol |
-| RAR     | Random Access Response |
-| DTCH    | Dedicated Traffic Channel |
-| DCCH    | Dedicated Control Channel |
-| CQI     | Channel Quality Indicator |
-| CC      | ??? |
-| SM      | Session Management |
-| SS      | ??? |
-| (E)MM   | ??? |
-| SMS     | Short Media Service |
+| Acronym | Full name                                                |
+| ------- | -------------------------------------------------------- |
+| MS      | Mobile Station                                           |
+| SIM     | Subscriber Identify Module                               |
+| uSIM    | Universal SIM                                            |
+| eSIM    | Electronic SIM                                           |
+| MSISDN  | Mobile Station International Subscriber Directory Number |
+| IMSI    | International Mobile Subscriber Identity                 |
+| TMSI    | Temporary Mobile Subscriber Identity                     |
+| IMEI    | International Mobile Equipment Identity                  |
+| RNTI    | Radio Network Temporary Identifier                       |
+| BS      | Base Station                                             |
+| BTS     | Base Transceiver Station                                 |
+| BSC     | Base Station Controller                                  |
+| RNC     | Radio Network Controller                                 |
+| RRH     | Remote Radio Head                                        |
+| BBU     | Base Band Unit                                           |
+| MSC     | Mobile Switching Center                                  |
+| GMSC    | Gateway MSC                                              |
+| GPRS    | General Packet Radio Service                             |
+| SGCN    | Serving GPRS Support Node                                |
+| GGSN    | Gateway GPRS Support Node                                |
+| S-GW    | Serving Gateway                                          |
+| P-GW    | Packet Data Network Gateway                              |
+| AMF     | Access and Mobility Management Function                  |
+| UPF     | User Plane Function                                      |
+| MME     | Mobility Management Entity                               |
+| HLR     | Home Location Register                                   |
+| HSS     | Home Subscriber Server                                   |
+| LTE     | Long-Term Evolution                                      |
+| SMS     | Short Media Service                                      |
+| MMS     | Multimedia Messaging Service                             |
+| IMS     | IP Multimedia Subsystem                                  |
+| VoIP    | Voice over IP                                            |
+| RRC     | Radio Resource Control                                   |
+| RLC     | Radio Link Control                                       |
+| PDCP    | Packet Data Convergence Protocol                         |
+| RAR     | Random Access Response                                   |
+| DTCH    | Dedicated Traffic Channel                                |
+| DCCH    | Dedicated Control Channel                                |
+| CQI     | Channel Quality Indicator                                |
+| CC      | ???                                                      |
+| SM      | Session Management                                       |
+| SS      | ???                                                      |
+| (E)MM   | ???                                                      |
+| SMS     | Short Media Service                                      |
