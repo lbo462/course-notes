@@ -7,11 +7,16 @@ Sources :
 - [Course on Moodle](https://moodle.insa-lyon.fr/course/view.php?id=1993)
 - [Mines Telecom course](https://lms.fun-mooc.fr/c4x/MinesTelecom/04001/asset/Support-Mooc-Semaine1A3__1_.pdf?fbclid=IwAR2x-M8uEiKbeXyirlpQQDEDMzVylUqdneQte3tpE1WyZVt-BP0nQjwl5vw)
 
+# Sending a SMS though the mobile network
+
 Because mobile network are no fun without stories, let's start a new one.
 
 ## User Domain
 
 Your name's Alicia and you possess a mobile phone. Here, your mobile phone will be referred as a *mobile station* (**MS**) or more globally, a *user equipment* (**UE**). In your phone, there's a **SIM** (*Subscriber Identify Module*) card.
+
+![](images/sms-user-domain.jpg)
+
 
 > uSIM and eSIM stands for *universal SIM* and *electronic SIM* and are just newer version of the good old SIM.
 
@@ -29,6 +34,8 @@ You're entering the **RAN**, the *Radio Access Network* !
 
 A base station is usually composed of two elements : the BST (the antenna) and a **BSC** (*Base Station Controller*). 
 It will be the entrypoint for your SMS. The SMS will be received by the BST and treated by the BSC.
+
+![](images/sms-ran.jpg)
 
 The roles of the BSC are :
 - to control the base station,
@@ -109,6 +116,20 @@ To say that in simple terms, it follows the same path but in reverse, in the rec
 
 > The circle is complete ✔️.
 
+# Service network, beyond the SMS
+
+Your SMS went though a lot of devices before reaching your recipient. But for you, it was only few seconds before your friend received it.
+
+But now, you don't want to send SMS anymore. You want to use different services proposed by your operator.
+
+> Wait, what services ?
+
+*"Services"* is a vast term and refers to many possible services. One of them is basically Internet 🌐 (that you should know about) but it can be the fixe-lined telephony (where advertisers used to call you), **VoIP** (*Voice over IP*) or the **IMS** (*IP Multimedia Subsystem*).
+
+> The IMS are services that operator tried to propose to replace some app such as social network, drives, games, etc.
+> Still, they couldn't compete against the already existing apps and almost no IMS are left on the market.
+
+To reach these services, your packets still follow the same path as previously for your SMS, but the out gateway sends your packet elsewhere, to the corresponding service.
 
 # ACRONYMS 😨
 
