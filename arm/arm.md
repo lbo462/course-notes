@@ -133,6 +133,8 @@ But now, you don't want to send SMS anymore. You want to use different services 
 
 To reach these services, your packets still follow the same path as previously for your SMS, but the out gateway sends your packet elsewhere, to the corresponding service.
 
+![](images/services.jpg)
+
 # ACRONYMS 😨
 
 Will you be brave enough to know them all ?
