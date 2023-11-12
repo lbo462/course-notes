@@ -22,7 +22,7 @@ Your name's Alicia and you possess a mobile phone. Here, your mobile phone will 
 
 There's also a fancy name for your phone number : the *mobile station international subscriber directory number*, a.k.a the **MSISDN** 🤯.
 
-There are a whole lot of identifiers but we'll talk about that later.
+There are a whole lot of identifiers but we'll talk about that later ([here](#theres-more-to-say-about-identifiers)).
 
 Now, let's send a **SMS** (*Short Media Service*). If you want to achieve this, you should be close to an antenna. Here, the antennas will are referred as **BST** for *Base Station Transmitter*.
 
@@ -135,6 +135,19 @@ To reach these services, your packets still follow the same path as previously f
 
 ![](images/services.jpg)
 
+# There's more to say about identifiers
+
+Do you remember what I said previously ?
+
+> There are a whole lot of identifiers but we'll talk about that later (here).
+
+Here is there. Now is the time we talk about these identifiers.
+
+Let's start simple with the **MSISDN** (*Mobile Station International Subscriber Directory Number*). It is your phone number basically.
+But how is it built ?
+
+We'll know later because my girlfriend just called me.
+
 # ACRONYMS 😨
 
 Will you be brave enough to know them all ?
@@ -180,7 +193,7 @@ Will you be brave enough to know them all ?
 | DTCH    | Dedicated Traffic Channel                                |
 | DCCH    | Dedicated Control Channel                                |
 | CQI     | Channel Quality Indicator                                |
-| CC      | ???                                                      |
+| CC      | Country Code                                             |
 | SM      | Session Management                                       |
 | SS      | ???                                                      |
 | (E)MM   | ???                                                      |
