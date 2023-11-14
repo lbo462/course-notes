@@ -166,6 +166,41 @@ An other type of identifier exist : the **RNTI** (*Radio Network Temporary Ident
 >
 > That part will be the subject of an other part of the course, so be patient, it will come.
 
+# Keep moving
+
+To start on an healthy basis, let's not make the confusion.
+
+There's two types of mobility :
+
+- Micro-mobility : dealing with a moving user.
+- Macro-mobility : a.k.a. *nomadism*, is the possibility for a user to access the network from different places.
+
+## Nomadism
+
+> Nomadism happens between two operators when a user find itself in the zone not covered by its operator.
+
+So you're still Alicia but now you travel to a foreign country for your studies. Your plane land to Spain and start your mobile phone. Even though you're sure you subscribed to a telephone package that allows you to access the network in Spain, you can't reach Internet ...
+
+In fact, your phone did try to reach the World Wide Web. Your phone sent requests that were handled by the spanish antennas that sent your requests to their core network. So why no answers? Because you are not subscribed to the spanish operator. He does not know you, and the country code present in your MSISDN revealed your nationality (see [identifiers](#theres-more-to-say-about-identifiers)).
+
+If the spanish operator sends your request to your true operator, your true operator would be charged for that. So you, Alicia, should pay that fee. Hence, you need to be sure that it's what you want and that you're ready to pay additional fees.
+
+But let's say, it is included in your telephone package, so you're not afraid of paying more. To validate your choice, you should alter your phone configuration and turn on **roaming**.
+
+> The roaming is the switching of packets from an operator to another.
+
+To put it all in a nutshell, turn on roaming when you travel to foreign countries.
+
+## Micro mobility
+
+Sending a SMS can be kind of fun ... kind of.
+But what's more funny than a call ?
+A call, while running !
+
+Now is the time to add movement to the UE (User Equipment) and see what happens.
+
+    TODO
+
 # ACRONYMS 😨
 
 Will you be brave enough to know them all ?
