@@ -146,7 +146,25 @@ Here is there. Now is the time we talk about these identifiers.
 Let's start simple with the **MSISDN** (*Mobile Station International Subscriber Directory Number*). It is your phone number basically.
 But how is it built ?
 
-We'll know later because my girlfriend just called me.
+**MSISDN = CC (+ NDC) + SN**
+
+- **CC** is the *Country Code*. It identifies ... the country (ex: 33 for France).
+- **NDC** is the *National Destination Code*. It identifies a specific country area. This was useful for the fixed-line telephony since the phone stayed pretty static. For mobile phones, this identifiers is not used anymore but is rather replaced by an identifier identifying the operator.
+- **SN** is the *Serial Number*, to differentiate different phone that could have the same previous identifiers.
+
+So the MSISDN if useful for an operator to find its user but is not enough to identify a user or an equipment.
+
+To identify a user, we use the **IMSI** (*International Mobile Subscriber Identity*). It identifies a subscriber though its SIM card.
+
+To identify an equipment, we use the **IMEI** (*International Mobile Equipment Identity*). An IMEI can be blocked by an operator for stolen equipments.
+
+The **TMSI** (*Temporary Mobile Subscriber Identity*) is, *as its name tell*, temporary. It can last few hours and starts when a connection starts. It is unique per operator. The following property allows to create a new unique identifier : the **GUTI** (*Globally Unique Temporary Identity*) which is given by the AMF (the 5G Core Network Controller).
+
+An other type of identifier exist : the **RNTI** (*Radio Network Temporary Identifier*) is a unique identifier for an antenna to identify a cell. Note that there can be multiple types of RNTI that have different functions.
+
+> Wait, what's a cell of an antenna ?
+>
+> That part will be the subject of an other part of the course, so be patient, it will come.
 
 # ACRONYMS 😨
 
