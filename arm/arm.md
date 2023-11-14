@@ -1,4 +1,4 @@
-# ARM Notes
+# Mobile Network Architecture
 
 Author: **LBO** 🥖
 
@@ -189,7 +189,10 @@ This process reduces the collisions between the users since they emit on differe
 ## Random access
 
 There exists specific resources blocks to handle certain functions, such as the *random access*.
-The random access channel is called by any incoming user on the RAN. 
+The random access channel is called by any incoming user on the RAN.
+
+> Note that the random access channel is the one where any incoming user writes.
+> The risk of collision is high, but in life, you only get what you deserve.
 
 When a new user connects to an antenna, it sends a random access preamble containing a random number. The RAN answers with a **RAR** (*Random Access Response*).
 
@@ -202,7 +205,20 @@ When a new user connects to an antenna, it sends a random access preamble contai
 
 ## RRC : Radio Resource Control
 
-    TODO
+Let's talk about the RRC layer. 
+
+This protocol defines two states :
+
+- RRC idle
+- RRC connected
+
+> Trivial.
+
+As you guessed, the RRC protocol, is a **connected** protocol, meaning that it handles a connection between a client and a server.
+
+The connection starts after a user received a RAR (see previous section). The user sends back a *RRC CONNECT* packet to initiate a connection, to which the RAN answers with a *RRC CONNECTION SETUP*, to which the user answers with a *RRC CONNECTION COMPLETE*, to which the RAN answers with a *CONTENTION RESOLUTION*.
+
+    TODO a nice scheme
 
 # Keep moving
 
