@@ -164,7 +164,45 @@ An other type of identifier exist : the **RNTI** (*Radio Network Temporary Ident
 
 > Wait, what's a cell of an antenna ?
 >
-> That part will be the subject of an other part of the course, so be patient, it will come.
+> The response is [here](#resource-block).
+
+# Connection to the RAN
+
+Multiple users can be connected to a base station. The ultimate goal is to avoid, most as possible, the collisions between the users (check *CA, collision avoidance*).
+
+## Resource block
+
+The solution used to deal with these multiple users is to assign a **resource block** to each of them.
+
+> Ok, what's that ?
+
+The antenna defines a time-frequency grid : 
+
+![](images/Time-Frequency-radio-resources-grid.png)
+
+*Source image on [researchgate](https://www.researchgate.net/figure/Time-Frequency-radio-resources-grid_fig3_233731550)*.
+
+When a resource block is assigned to a user, he's only allowed to emit its packets on the given time and frequency slots he was assigned.
+
+This process reduces the collisions between the users since they emit on different time and frequencies.
+
+## Random access
+
+There exists specific resources blocks to handle certain functions, such as the *random access*.
+The random access channel is called by any incoming user on the RAN. 
+
+When a new user connects to an antenna, it sends a random access preamble containing a random number. The RAN answers with a **RAR** (*Random Access Response*).
+
+> The RAR contains :
+> - the index of the random access preamble it answers,
+> - the resource blocks assigned to the user,
+> - a RNTI (see [identifiers](#theres-more-to-say-about-identifiers))
+>
+> \- from [sciencedirect.com](https://www.sciencedirect.com/topics/computer-science/random-access-response) (simplified)
+
+## RRC : Radio Resource Control
+
+    TODO
 
 # Keep moving
 
@@ -198,6 +236,8 @@ But what's more funny than a call ?
 A call, while running !
 
 Now is the time to add movement to the UE (User Equipment) and see what happens.
+
+> A bit of background is required to understand what's next. Please, take a look at the section about [RAN connection](#connection-to-the-ran).
 
     TODO
 
