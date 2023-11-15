@@ -9,22 +9,22 @@ Sources :
 
 # Sending a SMS though the mobile network
 
-Because mobile network are no fun without stories, let's start a new one.
+Because mobile networks are no fun without stories, let's start a new one.
 
 ## User Domain
 
-Your name's Alicia and you possess a mobile phone. Here, your mobile phone will be referred as a *mobile station* (**MS**) or more globally, a *user equipment* (**UE**). In your phone, there's a **SIM** (*Subscriber Identify Module*) card.
+Your name's Alicia and you possess a mobile phone. Here, your mobile phone will be referred to as a *mobile station* (**MS**) or more globally, a *user equipment* (**UE**). In your phone, there's a **SIM** (*Subscriber Identify Module*) card.
 
 ![](images/sms-user-domain.jpg)
 
 
-> uSIM and eSIM stands for *universal SIM* and *electronic SIM* and are just newer version of the good old SIM.
+> uSIM and eSIM stands for *universal SIM* and *electronic SIM* and are just newer versions of the good old SIM.
 
 There's also a fancy name for your phone number : the *mobile station international subscriber directory number*, a.k.a the **MSISDN** 🤯.
 
 There are a whole lot of identifiers but we'll talk about that later ([here](#theres-more-to-say-about-identifiers)).
 
-Now, let's send a **SMS** (*Short Media Service*). If you want to achieve this, you should be close to an antenna. Here, the antennas will are referred as **BST** for *Base Station Transmitter*.
+Now, let's send a **SMS** (*Short Media Service*). If you want to achieve this, you should be close to an antenna. Here, the antennas will are referred as **BTS** for *Base Transceiver Station*.
 
 You're entering the **RAN**, the *Radio Access Network* !
 
@@ -32,19 +32,19 @@ You're entering the **RAN**, the *Radio Access Network* !
 
 > But what's a *Base Station* ?
 
-A base station is usually composed of two elements : the BST (the antenna) and a **BSC** (*Base Station Controller*). 
-It will be the entrypoint for your SMS. The SMS will be received by the BST and treated by the BSC.
+A base station is usually composed of two elements : the BTS (the antenna) and a **BSC** (*Base Station Controller*). 
+It will be the entrypoint for your SMS. The SMS will be received by the BTS and treated by the BSC.
 
 ![](images/sms-ran.jpg)
 
 The roles of the BSC are :
 - to control the base station,
-- to concentrate the traffic (multiple BST can be connected to a single BSC),
+- to concentrate the traffic (multiple BTS can be connected to a single BSC),
 - to define the radio resource allocation algorithm
 
 For 3G, the BTS is a **NodeB** and the BSC is a **RNC**, *Radio Network Controller*.
 
-For 4G / LTE, the BST and BSC are a unique device called a **eNodeB**.
+For 4G / LTE, the BTS and BSC are a unique device called a **eNodeB**.
 For 5G, this device is called a **gNodeB**.
 
 > Let's dive even deeper on eNodeB and gNodeB.
@@ -54,7 +54,7 @@ For 5G, this device is called a **gNodeB**.
 > The BBU can be placed at a certain distance from the RRH, so that it can find its place in a small datacenter or a PoP (Point of Presence) where it can easily be managed.
 > But in fact, the BBU is usually placed next to its RRH, under the sun and the snow where it can die the fastest 😐.
 
-Now, what happens ? Your SMS was correctly received by the BST that sent it to its BSC which makes your SMS go from the RAN to the **CN**, the *Core Network* !
+Now, what happens ? Your SMS was correctly received by the BTS that sent it to its BSC which makes your SMS go from the RAN to the **CN**, the *Core Network* !
 
 ### Territory division
 
