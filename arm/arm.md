@@ -186,6 +186,10 @@ When a resource block is assigned to a user, he's only allowed to emit its packe
 
 This process reduces the collisions between the users since they emit on different time and frequencies.
 
+## Up-link and down-link
+
+    TODO
+
 ## Random access
 
 There exists specific resources blocks to handle certain functions, such as the *random access*.
@@ -193,6 +197,8 @@ The random access channel is called by any incoming user on the RAN.
 
 > Note that the random access channel is the one where any incoming user writes.
 > The risk of collision is high, but in life, you only get what you deserve.
+>
+> More seriously, the collisions happens rarely since the chosen preamble should be orthogonal with each others.
 
 When a new user connects to an antenna, it sends a random access preamble containing a random number. The RAN answers with a **RAR** (*Random Access Response*).
 
@@ -216,9 +222,11 @@ This protocol defines two states :
 
 As you guessed, the RRC protocol, is a **connected** protocol, meaning that it handles a connection between a client and a server.
 
-The connection starts after a user received a RAR (see previous section). The user sends back a *RRC CONNECT* packet to initiate a connection, to which the RAN answers with a *RRC CONNECTION SETUP*, to which the user answers with a *RRC CONNECTION COMPLETE*, to which the RAN answers with a *CONTENTION RESOLUTION*.
+The connection starts after a user received a RAR (see previous section). The user sends back a *RRC CONNECT* packet to initiate a connection, to which the RAN answers with a *RRC CONNECTION SETUP*, to which the user answers with a *RRC CONNECTION SETUP COMPLETE*, to which the RAN answers with a *CONTENTION RESOLUTION*.
 
-    TODO a nice scheme
+![](images/rrc-connect.jpg)
+
+After the CONTENTION RESOLUTION, the UE knows wether it's now connected to the RAN or not. If it's connected, it goes to the state *RRC CONNECTED*. Otherwise, it starts the whole process again.
 
 # Keep moving
 
