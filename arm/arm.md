@@ -223,7 +223,7 @@ The resources repartition is a bit more complex than a simple grid. In fact, the
 The UL is transmitted by the UE to the RAN.
 
 The DL is transmitted by the RAN to the UE. 
-This grid contains specific channels such as the **DTCH** (*Dedicated Trafic Channel*) and the **DCCH** (*Dedicated Control Channel*) that we'll talk about later ([here](#rrc--radio-resource-control))
+This grid contains specific channels such as the **DTCH** (*Dedicated Trafic Channel*) and the **DCCH** (*Dedicated Control Channel*) that we'll talk about later ([here](#rrc-connected))
 
 ## Random access
 
@@ -298,7 +298,37 @@ So even if you're very fast to answer, Nicole still waited few seconds during yo
 
 ### RRC CONNECTED
 
-    TODO
+Being in the RRC CONNECTED state means that the connection has been successfully completed.
+It means that you might be calling someone (maybe Nicole) or that you're scrolling social network on your 4/5G forfait.
+
+#### UPLINK trafic
+
+Now, an uplink is to consider on two channels **DTCH** (*Dedicated Trafic Channel*) and **DCCH** (*Dedicated Control Channel*).
+
+The DTCH is the channel where all your data goes though.
+
+On the other side, the DCCH is the channel where controls trafic goes though. It gives informations about the buffer state (on the RAN side), the channel quality (of the downlink seen by the UE) and the quality of the other channels on the neighbor cells (see the [territory division section](#territory-division)).
+
+> Even though the UE detects that it would have a better quality with its neighbor, it is no decision of it to change its connection.
+> The RAN is the only entity that can make that kind of choice.
+> The UE only acts as an information reporter and waits for instructions.
+
+#### DOWNLINK trafic
+
+On the DL, we observe the same two channels :
+
+The DTCH is still the channel where all your data goes though.
+
+The DCCH channel gives informations about the channel, such as the modulation to use, the power, the resources blocks and so on.
+
+Such as it was in the RRC IDLE state, the DL also contains the broadcast channel for the same purposes (see [RRC IDLE](#rrc-idle)).
+The difference lies within the paging channel. There's no more use for it since the user is connected. The Location DB contains the correct location of the user and it won't be a problem to reach him.
+
+But, we might have a problem if the user starts to move, right ?
+
+Right ! That's the subject of the next section.
+
+*- I love my transitions.*
 
 # Keep moving
 
