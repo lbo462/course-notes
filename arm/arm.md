@@ -56,6 +56,36 @@ For 5G, this device is called a **gNodeB**.
 
 Now, what happens ? Your SMS was correctly received by the BST that sent it to its BSC which makes your SMS go from the RAN to the **CN**, the *Core Network* !
 
+### Territory division
+
+I'm sorry to interrupt the little story but there's one thing to say here. 
+But if you're impatient to read the rest of the story, move on and come back later.
+That part of the course will be referred to later, so feel free to skip it now.
+No worries :)
+
+As mentioned in the title, the territory is divided into different areas.
+Please note that these areas are transparent to any user.
+Still, they're important for their equipments.
+
+You will later learn in the course that your operator needs to know your location to communicate with you. 
+If a RAN covers a certain part of the territory, the division is not made here.
+In fact, the territory is divided into **location areas** which are covered by multiple RAN.
+
+> The zone covered by a RAN is called a **cell**.
+
+![](images/Mobile-network-hierarchy-Location-Area-LA.png)
+
+*Source image on [researchgate](https://www.researchgate.net/figure/Mobile-network-hierarchy-Location-Area-LA_fig4_276037211).*
+
+> The **RA** you see on the image above are the *Routing Areas*.
+> They are not important to note here, but they do exist.
+
+A user can freely move inside its location area with having special nothing to do.
+But if it leaves its current location area, it should give notice to the operator (to the CN you'll see in the next section).
+
+If you didn't skip that part, I'm sorry for the interruption.
+Let's continue the story.
+
 ## CN : Core Network
 
 > What's the entrypoint of the CN ?
@@ -195,8 +225,6 @@ The UL is transmitted by the UE to the RAN.
 The DL is transmitted by the RAN to the UE. 
 This grid contains specific channels such as the **DTCH** (*Dedicated Trafic Channel*) and the **DCCH** (*Dedicated Control Channel*) that we'll talk about later ([here](#rrc--radio-resource-control))
 
-
-
 ## Random access
 
 There exists specific resources blocks to handle certain functions, such as the *random access*.
@@ -237,7 +265,36 @@ After the CONTENTION RESOLUTION, the UE knows wether it's now connected to the R
 
 ### RRC IDLE
 
-    TODO
+In the RRC IDLE state, no uplink is sent. That is easy to understand since no connection is up.
+
+Therefore, there's a downlink to consider on two specific channels : the **broadcast** and the **paging** channels.
+
+The broadcast channel is mainly used for sharing informations about an antenna. It could also be used for different purposes such as sending an SMS to every users connected to an antenna.
+Still, this is actually not used, at least in France, where "broadcast" messages are sent individually to each network user -_-
+
+The paging channel is used to locate the user at any point of time, wether he's connected or not. This is very useful is you want to be joined when no connection is on-going.
+
+### Incoming call
+
+Let's illustrate the use of the paging channel with a new little story.
+
+Your **BFF** (*Best Friend Forever*), Nicole, is calling you while you walk in the street with your phone in your bag.
+Its starts to ring on Nicole's phone but your phone is still silent.
+
+Pause the time and let's observe what's happening while you're still unaware of that phone call. The Nicole's UE sent the information of that phone call to its operator CN though the RAN she's connected to. That information is received to your operator CN which knows where you are thanks to its Location DB. Once it found you in its register, it sends the information to the correct RAN which writes this information into its paging channel (here it comes).
+You're the target of the call. Hence, your UE starts a new connection has seen earlier to go to the state RRC CONNECTED state.
+
+It's only now that your phone starts to ring.
+So even if you're very fast to answer, Nicole still waited few seconds during your phone went from RRC IDLE to RRC CONNECTED.
+
+> Two things to note here :
+>
+> If you were using your phone, the connection would already have been set-up.
+> Thus, Nicole would have waited less.
+>
+> Moreover, it's possible that your CN didn't not know exactly where you were at that moment in time.
+> The things he knows for sure, is your location area, which is covered by multiple RAN.
+> If if would have been the case, the call would have been sent to every RAN in your location area (see the [territory division section](#territory-division)).
 
 ### RRC CONNECTED
 
@@ -318,6 +375,7 @@ Will you be brave enough to know them all ?
 | MMS     | Multimedia Messaging Service                             |
 | IMS     | IP Multimedia Subsystem                                  |
 | VoIP    | Voice over IP                                            |
+| BFF     | Best Friend Forever                                      |
 | RRC     | Radio Resource Control                                   |
 | RLC     | Radio Link Control                                       |
 | PDCP    | Packet Data Convergence Protocol                         |
