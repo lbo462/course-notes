@@ -188,7 +188,14 @@ This process reduces the collisions between the users since they emit on differe
 
 ## Up-link and down-link
 
-    TODO
+The resources repartition is a bit more complex than a simple grid. In fact, there's two grids to consider : the **UL** (*Up-Link*) and **DL** (*Down-Link*).
+
+The UL is transmitted by the UE to the RAN.
+
+The DL is transmitted by the RAN to the UE. 
+This grid contains specific channels such as the **DTCH** (*Dedicated Trafic Channel*) and the **DCCH** (*Dedicated Control Channel*) that we'll talk about later ([here](#rrc--radio-resource-control))
+
+
 
 ## Random access
 
@@ -227,6 +234,14 @@ The connection starts after a user received a RAR (see previous section). The us
 ![](images/rrc-connect.jpg)
 
 After the CONTENTION RESOLUTION, the UE knows wether it's now connected to the RAN or not. If it's connected, it goes to the state *RRC CONNECTED*. Otherwise, it starts the whole process again.
+
+### RRC IDLE
+
+    TODO
+
+### RRC CONNECTED
+
+    TODO
 
 # Keep moving
 
