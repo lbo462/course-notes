@@ -345,9 +345,9 @@ There's two types of mobility :
 
 So you're still Alicia but now you travel to a foreign country for your studies. Your plane land to Spain and start your mobile phone. Even though you're sure you subscribed to a telephone package that allows you to access the network in Spain, you can't reach Internet ...
 
-In fact, your phone did try to reach the World Wide Web. Your phone sent requests that were handled by the spanish antennas that sent your requests to their core network. So why no answers? Because you are not subscribed to the spanish operator. He does not know you, and the country code present in your MSISDN revealed your nationality (see [identifiers](#theres-more-to-say-about-identifiers)).
+In fact, your phone did try to reach the World Wide Web. Your phone sent requests that were handled by the Spanish antennas that sent your requests to their core network. So why no answers? Because you are not subscribed to the Spanish operator. He does not know you, and the country code present in your MSISDN revealed your nationality (see [identifiers](#theres-more-to-say-about-identifiers)).
 
-If the spanish operator sends your request to your true operator, your true operator would be charged for that. So you, Alicia, should pay that fee. Hence, you need to be sure that it's what you want and that you're ready to pay additional fees.
+If the Spanish operator sends your request to your true operator, your true operator would be charged for that. So you, Alicia, should pay that fee. Hence, you need to be sure that it's what you want and that you're ready to pay additional fees.
 
 But let's say, it is included in your telephone package, so you're not afraid of paying more. To validate your choice, you should alter your phone configuration and turn on **roaming**.
 
@@ -365,7 +365,64 @@ Now is the time to add movement to the UE (User Equipment) and see what happens.
 
 > A bit of background is required to understand what's next. Please, take a look at the section about [RAN connection](#connection-to-the-ran).
 
-    TODO
+Now that the technical background is set-up, let's add some storytelling.
+
+### The Loneliness of the Long Distance Runner
+
+Since you were a little kid, you always wanted to run long distances.
+This love for long distance running, probably came from your love to that [Iron Maiden's song](https://www.youtube.com/watch?v=-mZTKzgCLLE) (please turn on your loud speakers and listen to that masterpiece before going any further).
+As you might have foreshadowed, long distance runners often feel lonely.
+Hence, when you run long distances, you usually call your BFF, Nicole.
+
+> If you haven't yet, it's really time to check the [territory division section](#territory-division).
+
+You start your call in a certain cell. 
+Every goes as previously, no surprises.
+
+But while running (and calling Nicole), you get out of your cell. 
+Will the phone call stops ?
+Hopefully, no.
+Instead, the RAN of the previous cell sends you a **handover**.
+
+> Do you remember the little note [here](#uplink-trafic) ? 
+> Maybe you should re-read once more, because we're going to talk about it.
+
+When getting further away of the original cell, the channel quality lowers while the channel quality of the neighbor cell you're running into grows.
+The RAN of the original cell knows what's happening and sends you that *handover* so that you change your referred cell to the one that fits you best.
+With this process, you're allowed to run as far as you wish and you'll never loose your phone call *so you won't feel lonely*.
+
+> But what if you get out of a location area ?
+>
+> Well, nothing special, it is just the same as changing cell when you're connected.
+
+Things changes when you're not connected.
+Will the Location DB knows where you are ?
+Let's re-background this with a new little story.
+
+### From Paris to Lyon, on a plane
+
+Hey, why would travel from Paris to Lyon by plane ?
+
+Because I became ungovernable and I eat my soup with my bare hands.
+
+Now that's said, let's move on to our story :
+
+So you take the plane from Paris to Lyon to see your BFF, Nicole.
+You heard that it was best to set your phone on airplane mode while flying on a plane, so you did (not so ungovernable after all ...).
+When you land to *Lyon Saint-Exupéry*, you turn your phone back on and wait for the Nicole's call.
+
+So Nicole calls you.
+Her call was sent to her cell, then to her operator CN then to yours.
+
+> But hey, does your operator CN knows that you're in Lyon now ?
+
+In fact, it does so you'll receive the call without any problem.
+When you landed, you changed from a location area to another.
+That could also have happened if you changed location area in a different manner, but that one was spicier.
+
+When you change location areas, your UE (in RRC IDLE state) listen to the broadcast channel of the closer RAN. Because it understands it changed location area, it connects itself to the RAN and sends its new location to the CNC, which updates the location DB.
+
+Now, when Nicole calls you, even if you're not using your phone, the call is sent via the paging channel on the correct location area.
 
 # ACRONYMS 😨
 
