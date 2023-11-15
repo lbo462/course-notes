@@ -274,7 +274,7 @@ Still, this is actually not used, at least in France, where "broadcast" messages
 
 The paging channel is used to locate the user at any point of time, wether he's connected or not. This is very useful is you want to be joined when no connection is on-going.
 
-### Incoming call
+#### Incoming call
 
 Let's illustrate the use of the paging channel with a new little story.
 
@@ -301,6 +301,8 @@ So even if you're very fast to answer, Nicole still waited few seconds during yo
 Being in the RRC CONNECTED state means that the connection has been successfully completed.
 It means that you might be calling someone (maybe Nicole) or that you're scrolling social network on your 4/5G forfait.
 
+> The connections holds while data waits in the up-link or down-link buffer. When no data is to be sent, an **inactivity timer** starts. When the timer gets to zero, the RRC disconnect and the MS returns to the state RRC IDLE.
+
 #### UPLINK trafic
 
 Now, an uplink is to consider on two channels **DTCH** (*Dedicated Trafic Channel*) and **DCCH** (*Dedicated Control Channel*).
@@ -308,6 +310,9 @@ Now, an uplink is to consider on two channels **DTCH** (*Dedicated Trafic Channe
 The DTCH is the channel where all your data goes though.
 
 On the other side, the DCCH is the channel where controls trafic goes though. It gives informations about the buffer state (on the RAN side), the channel quality (of the downlink seen by the UE) and the quality of the other channels on the neighbor cells (see the [territory division section](#territory-division)).
+With this information, the BSC knows how much blocks are required for the data it need to transmit and can adapt the modulation.
+
+> When the channel quality is low, the BSC changes the modulation with more redundancy
 
 > Even though the UE detects that it would have a better quality with its neighbor, it is no decision of it to change its connection.
 > The RAN is the only entity that can make that kind of choice.
@@ -319,16 +324,59 @@ On the DL, we observe the same two channels :
 
 The DTCH is still the channel where all your data goes though.
 
-The DCCH channel gives informations about the channel, such as the modulation to use, the power, the resources blocks and so on.
+The DCCH channel gives informations about the channel, such as the modulation to use, the power, the resources blocks and so on. It a called a **scheduling**.
 
 Such as it was in the RRC IDLE state, the DL also contains the broadcast channel for the same purposes (see [RRC IDLE](#rrc-idle)).
 The difference lies within the paging channel. There's no more use for it since the user is connected. The Location DB contains the correct location of the user and it won't be a problem to reach him.
 
 But, we might have a problem if the user starts to move, right ?
 
-Right ! That's the subject of the next section.
+Right ! That's the subject of the [next section](#keep-moving).
 
-*- I love my transitions.*
+But first, I need to apologize because I might have simplified thing. 
+In fact, a full connection requires being in the state RRC CONNECTED (to be be connected to the RAN) and in the state EMM ATTACH (to be connected to the CN).
+
+> Time to read about [(E)MM](#emm--enhanced-mobility-management).
+
+## PDCP : Packet Data Convergence Protocol
+
+    TODO
+
+# Connection to the CN
+
+## (E)MM : (Enhanced) Mobility Management
+
+The EMM protocol, such as RRC is a connected protocol.
+It is the layer just above RRC, same level as IP or the Voice protocol.
+This layer and all the ones above defines the **non-access stratum** while the belows layers are the **access stratum**.
+
+The above layers can be **SMS** (*Short Media Service*), **SM** (*Session Management*), **SS** (*Supplementary Source*) or **CC** (*Call Control*).
+
+It defines two states :
+- EMM DETACH (disconnected from the CN)
+- EMM ATTACH (connected to the CN)
+
+Hence, we have to deal with two connected layers.
+
+## RRC x (E)MM
+
+Here, we have two protocols, each defining two states.
+That leads to four possible states.
+And because a hundred words couldn't explain best than a scheme, here's what we have :
+
+    TODO the scheme
+
+## Summary
+
+That was a lot so let's gather all of that into a quick summary.
+
+The RRC protocol allows a connection between the user domain and the RAN.
+
+The EMM protocol allows a connection between the user domain and the CN and requires the RRC CONNECTED state. It can be replaced by IP for certain services, or by the Voice protocol.
+
+Here's what the protocol stack looks like :
+
+    TODO protocol stack scheme
 
 # Keep moving
 
@@ -470,8 +518,7 @@ Will you be brave enough to know them all ?
 | DTCH    | Dedicated Traffic Channel                                |
 | DCCH    | Dedicated Control Channel                                |
 | CQI     | Channel Quality Indicator                                |
-| CC      | Country Code                                             |
+| CC      | Call Control                                             |
 | SM      | Session Management                                       |
-| SS      | ???                                                      |
-| (E)MM   | ???                                                      |
-| SMS     | Short Media Service                                      |
+| SS      | Supplementary Source                                     |
+| (E)MM   | Enhanced Mobility Management                             |
