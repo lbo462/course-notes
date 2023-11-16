@@ -13,7 +13,9 @@ Because mobile networks are no fun without stories, let's start a new one.
 
 ## User Domain
 
-Your name's Alicia and you possess a mobile phone. Here, your mobile phone will be referred to as a *mobile station* (**MS**) or more globally, a *user equipment* (**UE**). In your phone, there's a **SIM** (*Subscriber Identify Module*) card.
+Your name's Alicia and you possess a mobile phone. 
+Here, your mobile phone will be referred to as a *mobile station* (**MS**) or more globally, a *user equipment* (**UE**). 
+In your phone, there's a **SIM** (*Subscriber Identify Module*) card.
 
 ![](images/sms-user-domain.jpg)
 
@@ -24,7 +26,9 @@ There's also a fancy name for your phone number : the *mobile station internatio
 
 There are a whole lot of identifiers but we'll talk about that later ([here](#theres-more-to-say-about-identifiers)).
 
-Now, let's send a **SMS** (*Short Media Service*). If you want to achieve this, you should be close to an antenna. Here, the antennas will are referred as **BTS** for *Base Transceiver Station*.
+Now, let's send a **SMS** (*Short Media Service*). 
+If you want to achieve this, you should be close to an antenna. 
+Here, the antennas will are referred as **BTS** for *Base Transceiver Station*.
 
 You're entering the **RAN**, the *Radio Access Network* !
 
@@ -49,7 +53,7 @@ For 5G, this device is called a **gNodeB**.
 
 > Let's dive even deeper on eNodeB and gNodeB.
 > 
-> They're usually split in two devices : the **RRH**, *Remote radio Head* (the new name for the antenna) and the **BBU**, *Base Band Unit*
+> They're usually split in two devices : the **RRH**, *Remote radio Head* (the new name for the antenna) and the **BBU**, *Base Band Unit*.
 >
 > The BBU can be placed at a certain distance from the RRH, so that it can find its place in a small datacenter or a PoP (Point of Presence) where it can easily be managed.
 > But in fact, the BBU is usually placed next to its RRH, under the sun and the snow where it can die the fastest 😐.
@@ -91,15 +95,18 @@ Let's continue the story.
 > What's the entrypoint of the CN ?
 
 The BSC is connected to a **MSC**, a *Mobile Switching Center* which is basically a big switch that receives multiple packets from multiple BSC.
-A most common name is *service gateway*. The MSC was the device used in 2G. In 3G, this device was a **SGSN**, a *Serving GPRS Support Node*.
+A most common name is *service gateway*. 
+The MSC was the device used in 2G. In 3G, this device was a **SGSN**, a *Serving GPRS Support Node*.
 
 In 4G, this device was a **S-GW**, i.e. a *Serving GateWay* and in 5G, it was an **UPF**, i.e. an *User Plane Function*.
 
 After receiving a packet, it transmits it to the CN big boss : the **CNC**, the *Core Network Controller* 🤴.
 
-In 4G, the CNC was a **MME** (*Mobility Management Entity*). In 5G, this device was an **AMF** (*Access and Mobility Management Function*). 
+In 4G, the CNC was a **MME** (*Mobility Management Entity*). 
+In 5G, this device was an **AMF** (*Access and Mobility Management Function*). 
 
-> Note that the CNC only exists since the 4G. Before that, its functions were handled by the service gateway and the out gateway, which we'll talk about later. 
+> Note that the CNC only exists since the 4G. 
+> Before that, its functions were handled by the service gateway and the out gateway, which we'll talk about later. 
 
 The CNC is a very expensive device 💸💸. There are few CNC over the country and they process every single packet of the mobile network.
 
@@ -111,21 +118,29 @@ The CNC has a very important role and is connected to multiple databases and rou
 
 > There's more to say about the *Location DB*.
 >
-> This database stores an approximate location of every users of the network. This location is used to send the packets to the correct base station.
+> This database stores an approximate location of every users of the network.
+> This location is used to send the packets to the correct base station.
 > 
 > Plus, the location DB is in fact hidden behind an **AuC** (Authentication Server).
 > This server waits for an **IMSI** (*International Mobile Subscriber Identity*) and starts a challenge with the user. 
-> The Auc sends a **RAND** (RANDom) which a random vector corresponding to the challenge. The MS (Mobile Station) answers with a **SRES** (*Signed RESponse*). 
+> The Auc sends a **RAND** (RANDom) which a random vector corresponding to the challenge. 
+> The MS (Mobile Station) answers with a **SRES** (*Signed RESponse*). 
 > If the response is the correct response for the given challenge, the AuC returns its information from the Location DB.
 
-The CNC can now send your SMS to the *out gateway*, which is basically a router. In 2G, this device was a **gMSC** (*gateway Mobile Switching Center*) and in 3G, it was a **GGSN** (*Gateway GPRS Support Node*). They provided the CNC function. In 4G, this device becomes a **P-GW** (*Packet Data Network Gateway*). In 5G, it's an UPF, the same as the service gateway.
+The CNC can now sends your SMS to the *out gateway*, which is basically a router. 
+In 2G, this device was a **gMSC** (*gateway Mobile Switching Center*) and in 3G, it was a **GGSN** (*Gateway GPRS Support Node*). 
+They provided the CNC function. 
+In 4G, this device becomes a **P-GW** (*Packet Data Network Gateway*). 
+In 5G, it's an UPF, the same as the service gateway.
 
 > For IPv4, the out gateway provides NAT functions.
 
-This router is connected to a DHCP server. That's where an IP address can be given to your mobile station (your phone).
+This router is connected to a DHCP server. 
+That's where an IP address can be given to your mobile station (your phone).
 But for the simple SMS you sent, there's no need.
 
-> We've seen three different devices for different generations with a lot of acronyms. Let's make a quick recap.
+> We've seen three different devices for different generations with a lot of acronyms. 
+> Let's make a quick recap.
 
 | Common name                   | Description                                                                            | 2G                                     | 3G                               | 4G                                            | 5G                               |
 | ----------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------- | -------------------------------- | --------------------------------------------- | -------------------------------- |
@@ -143,7 +158,8 @@ But for the simple SMS you sent, there's no need.
 
 Ok, so where does the out gateway sends your precious SMS ?
 
-It is sent to the operator of your recipient. To be more precise, it's sent to the out gateway of its operator, then to the CNC and then to a base station that will notify your recipient.
+It is sent to the operator of your recipient.
+To be more precise, it's sent to the out gateway of its operator, then to the CNC and then to a base station that will notify your recipient.
 To say that in simple terms, it follows the same path but in reverse, in the recipient's operator network.
 
 > The circle is complete ✔️.
@@ -158,13 +174,16 @@ Two protocols are in play : **CP** (*Connection Protocol*) and **RP** (*Relay Pr
 
 # Service network, beyond the SMS
 
-Your SMS went though a lot of devices before reaching your recipient. But for you, it was only few seconds before your friend received it.
+Your SMS went though a lot of devices before reaching your recipient. 
+But for you, it was only few seconds before your friend received it.
 
-But now, you don't want to send SMS anymore. You want to use different services proposed by your operator.
+But now, you don't want to send SMS anymore. 
+You want to use different services proposed by your operator.
 
 > Wait, what services ?
 
-*"Services"* is a vast term and refers to many possible services. One of them is basically Internet 🌐 (that you should know about) but it can be the fixe-lined telephony (where advertisers used to call you), **VoIP** (*Voice over IP*) or the **IMS** (*IP Multimedia Subsystem*).
+*"Services"* is a vast term and refers to many possible services. 
+One of them is basically Internet 🌐 (that you should know about) but it can be the fixe-lined telephony (where advertisers used to call you), **VoIP** (*Voice over IP*) or the **IMS** (*IP Multimedia Subsystem*).
 
 > The IMS are services that operator tried to propose to replace some app such as social network, drives, games, etc.
 > Still, they couldn't compete against the already existing apps and almost no IMS are left on the market.
@@ -179,9 +198,11 @@ Do you remember what I said previously ?
 
 > There are a whole lot of identifiers but we'll talk about that later (here).
 
-Here is there. Now is the time we talk about these identifiers.
+Here is there. 
+Now is the time we talk about these identifiers.
 
-Let's start simple with the **MSISDN** (*Mobile Station International Subscriber Directory Number*). It is your phone number basically.
+Let's start simple with the **MSISDN** (*Mobile Station International Subscriber Directory Number*). 
+It is your phone number basically.
 But how is it built ?
 
 **MSISDN = CC (+ NDC) + SN**
@@ -192,21 +213,27 @@ But how is it built ?
 
 So the MSISDN if useful for an operator to find its user but is not enough to identify a user or an equipment.
 
-To identify a user, we use the **IMSI** (*International Mobile Subscriber Identity*). It identifies a subscriber though its SIM card.
+To identify a user, we use the **IMSI** (*International Mobile Subscriber Identity*). 
+It identifies a subscriber though its SIM card.
 
-To identify an equipment, we use the **IMEI** (*International Mobile Equipment Identity*). An IMEI can be blocked by an operator for stolen equipments.
+To identify an equipment, we use the **IMEI** (*International Mobile Equipment Identity*). 
+An IMEI can be blocked by an operator for stolen equipments.
 
-The **TMSI** (*Temporary Mobile Subscriber Identity*) is, *as its name tell*, temporary. It can last few hours and starts when a connection starts. It is unique per operator. The following property allows to create a new unique identifier : the **GUTI** (*Globally Unique Temporary Identity*) which is given by the AMF (the 5G Core Network Controller).
+The **TMSI** (*Temporary Mobile Subscriber Identity*) is, *as its name tell*, temporary. 
+It can last few hours and starts when a connection starts. 
+It is unique per operator. 
+The following property allows to create a new unique identifier : the **GUTI** (*Globally Unique Temporary Identity*) which is given by the AMF (the 5G Core Network Controller).
 
 An other type of identifier exist : the **RNTI** (*Radio Network Temporary Identifier*) is a unique identifier for an antenna to identify a cell. Note that there can be multiple types of RNTI that have different functions.
 
 > Wait, what's a cell of an antenna ?
 >
-> The response is [here](#resource-block).
+> The response is in the [next section](#resource-block).
 
 # Connection to the RAN
 
-Multiple users can be connected to a base station. The ultimate goal is to avoid, most as possible, the collisions between the users (check *CA, collision avoidance*).
+Multiple users can be connected to a base station. 
+The ultimate goal is to avoid, most as possible, the collisions between the users (check *CA, collision avoidance*).
 
 ## Resource block
 
@@ -226,7 +253,8 @@ This process reduces the collisions between the users since they emit on differe
 
 ## Up-link and down-link
 
-The resources repartition is a bit more complex than a simple grid. In fact, there's two grids to consider : the **UL** (*Up-Link*) and **DL** (*Down-Link*).
+The resources repartition is a bit more complex than a simple grid. 
+In fact, there's two grids to consider : the **UL** (*Up-Link*) and **DL** (*Down-Link*).
 
 The UL is transmitted by the UE to the RAN.
 
@@ -243,7 +271,8 @@ The random access channel is called by any incoming user on the RAN.
 >
 > More seriously, the collisions happens rarely since the chosen preamble should be orthogonal with each others.
 
-When a new user connects to an antenna, it sends a random access preamble containing a random number. The RAN answers with a **RAR** (*Random Access Response*).
+When a new user connects to an antenna, it sends a random access preamble containing a random number. 
+The RAN answers with a **RAR** (*Random Access Response*).
 
 > The RAR contains :
 > - the index of the random access preamble it answers,
@@ -257,7 +286,6 @@ When a new user connects to an antenna, it sends a random access preamble contai
 Let's talk about the RRC layer. 
 
 This protocol defines two states :
-
 - RRC idle
 - RRC connected
 
@@ -265,29 +293,37 @@ This protocol defines two states :
 
 As you guessed, the RRC protocol, is a **connected** protocol, meaning that it handles a connection between a client and a server.
 
-The connection starts after a user received a RAR (see previous section). The user sends back a *RRC CONNECT* packet to initiate a connection, to which the RAN answers with a *RRC CONNECTION SETUP*, to which the user answers with a *RRC CONNECTION SETUP COMPLETE*, to which the RAN answers with a *CONTENTION RESOLUTION*.
+The connection starts after a user received a RAR (see previous section).
+The user sends back a *RRC CONNECT* packet to initiate a connection, to which the RAN answers with a *RRC CONNECTION SETUP*, to which the user answers with a *RRC CONNECTION SETUP COMPLETE*, to which the RAN answers with a *CONTENTION RESOLUTION*.
 
 ![](images/rrc-connect.jpg)
 
-After the CONTENTION RESOLUTION, the UE knows wether it's now connected to the RAN or not. If it's connected, it goes to the state *RRC CONNECTED*. Otherwise, it starts the whole process again.
+After the CONTENTION RESOLUTION, the UE knows wether it's now connected to the RAN or not.
+If it's connected, it goes to the state *RRC CONNECTED*.
+Otherwise, it starts the whole process again.
 
 ### RRC IDLE
 
-In the RRC IDLE state, no uplink is sent. That is easy to understand since no connection is up.
+In the RRC IDLE state, no uplink is sent.
+That is easy to understand since no connection is up.
 
 Therefore, there's a downlink to consider on two specific channels : the **broadcast** and the **paging** channels.
 
-The broadcast channel is mainly used for sharing information about an antenna. It could also be used for different purposes such as sending an SMS to every users connected to an antenna.
+The broadcast channel is mainly used for sharing information about an antenna.
+It could also be used for different purposes such as sending an SMS to every users connected to an antenna.
 Still, this is actually not used, at least in France, where "broadcast" messages are sent individually to each network user -_-
 
-The paging channel is used to locate the user at any point of time, wether he's connected or not. This is very useful is you want to be joined when no connection is on-going. There's two types of data sent on this channel : the **beacons** and the **serving call** (whenever someone tries to reach a UE, see [call control](#cc--call-control)).
+The paging channel is used to locate the user at any point of time, wether he's connected or not.
+This is very useful is you want to be joined when no connection is on-going. There's two types of data sent on this channel : the **beacons** and the **serving call** (whenever someone tries to reach a UE, see [call control](#cc--call-control)).
 
 ### RRC CONNECTED
 
 Being in the RRC CONNECTED state means that the connection has been successfully completed.
-It means that you might be calling someone (maybe Nicole) or that you're scrolling social network on your 4/5G package.
+It means that you might be calling someone (maybe your friend Nicole) or that you're scrolling social network on your 4/5G package.
 
-> The connections holds while data waits in the up-link or down-link buffer. When no data is to be sent, an **inactivity timer** starts. When the timer gets to zero, the RRC disconnect and the MS returns to the state RRC IDLE.
+> The connections holds while data waits in the up-link or down-link buffer.
+> When no data is to be sent, an **inactivity timer** starts. 
+> When the timer gets to zero, the RRC disconnect and the MS returns to the state RRC IDLE.
 
 #### UPLINK trafic
 
@@ -295,10 +331,11 @@ Now, an uplink is to consider on two channels **DTCH** (*Dedicated Traffic Chann
 
 The DTCH is the channel where all your data goes though.
 
-On the other side, the DCCH is the channel where controls traffic goes though. It gives information about the buffer state (on the RAN side), the channel quality (of the downlink seen by the UE) and the quality of the other channels on the neighbor cells (see the [territory division section](#territory-division)).
+On the other side, the DCCH is the channel where controls traffic goes though.
+It gives information about the buffer state (on the RAN side), the channel quality (of the downlink seen by the UE) and the quality of the other channels on the neighbor cells (see the [territory division section](#territory-division)).
 With this information, the BSC knows how much blocks are required for the data it need to transmit and can adapt the modulation.
 
-> When the channel quality is low, the BSC changes the modulation with more redundancy
+> When the channel quality is low, the BSC changes the modulation with more redundancy.
 
 > Even though the UE detects that it would have a better quality with its neighbor, it is no decision of it to change its connection.
 > The RAN is the only entity that can make that kind of choice.
@@ -308,12 +345,13 @@ With this information, the BSC knows how much blocks are required for the data i
 
 On the DL, we observe the same two channels :
 
-The DTCH is still the channel where all your data goes though.
-
-The DCCH channel gives information about the channel, such as the modulation to use, the power, the resources blocks and so on. It a called a **scheduling**.
+- The DTCH is still the channel where all your data goes though.
+- The DCCH channel gives information about the channel, such as the modulation to use, the power, the resources blocks and so on. It a called a **scheduling**.
 
 Such as it was in the RRC IDLE state, the DL also contains the broadcast channel for the same purposes (see [RRC IDLE](#rrc-idle)).
-The difference lies within the paging channel. There's no more use for it since the user is connected. The Location DB contains the correct location of the user and it won't be a problem to reach him.
+The difference lies within the paging channel.
+There's no more use for it since the user is connected.
+The Location DB contains the correct location of the user and it won't be a problem to reach him.
 
 But, we might have a problem if the user starts to move, right ?
 
@@ -324,11 +362,13 @@ In fact, a full connection requires being in the state RRC CONNECTED (to be be c
 
 > Time to read about [(E)MM](#emm--enhanced-mobility-management).
 
+But first, just a quick overview of **PDCP**.
+
 ## PDCP : Packet Data Convergence Protocol
 
 The PDCP allows an IP packet to be transformed into a new format.
 
-It compresses the IP header to reduce the traffic on the channel
+It compresses the IP header to reduce the traffic on the channel.
 
 # Connection to the CN
 
@@ -338,7 +378,7 @@ The EMM protocol, such as RRC is a connected protocol.
 It is the layer just above RRC, same level as IP or the Voice protocol.
 This layer and all the ones above defines the **non-access stratum** while the belows layers are the **access stratum**.
 
-The above layers can be **SMS** (*Short Media Service*), **SM** (*Session Management*), **SS** (*Supplementary Source*) or **CC** (*Call Control*).
+The above layers can be **SMS** (*Short Media Service*), **SM** (*Session Management*), **SS** (*Supplementary Source*) or [**CC** (*Call Control*)](#cc--call-control).
 
 It defines two states :
 - EMM DETACH (disconnected from the CN)
@@ -355,9 +395,10 @@ Let's take a look at what happens during a connection :
 > 
 > First, the attacker jams the network to keep only the 2G on.
 > When your UE tries to connect, it sends its IMSI which is caught by the IMSI catcher.
-> With your IMSI, the attacker can now impersonate you and sends spam SMS to all your contacts.
+> With your IMSI, the attacker can now impersonate you and sends spam SMS to all your contacts (and more).
 >
-> When you receive spam SMS, don't insult the sender. He's probably just a victim of an IMSI catcher.
+> When you receive spam SMS, don't insult the sender.
+> He's probably just a victim of an IMSI catcher.
 > It often happens in large cities where the attackers drives with their IMSI catcher, jamming the network in their area to retrieve some IMSI.
 >
 > The solution would be to entirely revoke the 2G network but only time will make that possible.
@@ -369,8 +410,6 @@ That leads to four possible states.
 And because a hundred words couldn't explain best than a scheme, here's what we have :
 
 ![](images/rrc-x-emm.jpg)
-
-The arrows represent the possible state changes.
 
 ## Summary
 
@@ -438,13 +477,22 @@ There's two types of mobility :
 
 > Nomadism happens between two operators when a user find itself in the zone not covered by its operator.
 
-So you're still Alicia but now you travel to a foreign country for your studies. Your plane land to Spain and start your mobile phone. Even though you're sure you subscribed to a telephone package that allows you to access the network in Spain, you can't reach Internet ...
+So you're still Alicia but now you travel to a foreign country for your studies. 
+Your plane land to Spain and start your mobile phone.
+Even though you're sure you subscribed to a telephone package that allows you to access the network in Spain, you can't reach Internet ...
 
-In fact, your phone did try to reach the World Wide Web. Your phone sent requests that were handled by the Spanish antennas that sent your requests to their core network. So why no answers? Because you are not subscribed to the Spanish operator. He does not know you, and the country code present in your MSISDN revealed your nationality (see [identifiers](#theres-more-to-say-about-identifiers)).
+In fact, your phone did try to reach the World Wide Web.
+Your phone sent requests that were handled by the Spanish antennas that sent your requests to their core network.
+So why no answers?
+Because you are not subscribed to the Spanish operator.
+He does not know you, and the country code present in your MSISDN revealed your nationality (see [identifiers](#theres-more-to-say-about-identifiers)).
 
-If the Spanish operator sends your request to your true operator, your true operator would be charged for that. So you, Alicia, should pay that fee. Hence, you need to be sure that it's what you want and that you're ready to pay additional fees.
+If the Spanish operator sends your request to your true operator, your true operator would be charged for that.
+So you, Alicia, should pay that fee.
+Hence, you need to be sure that it's what you want and that you're ready to pay additional fees.
 
-But let's say, it is included in your telephone package, so you're not afraid of paying more. To validate your choice, you should alter your phone configuration and turn on **roaming**.
+But let's say, it is included in your telephone package, so you're not afraid of paying more.
+To validate your choice, you should alter your phone configuration and turn on **roaming**.
 
 > The roaming is the switching of packets from an operator to another.
 
@@ -515,9 +563,12 @@ In fact, it does so you'll receive the call without any problem.
 When you landed, you changed from a location area to another.
 That could also have happened if you changed location area in a different manner, but that one was spicier.
 
-When you change location areas, your UE (in RRC IDLE state) listen to the broadcast channel of the closer RAN. Because it understands it changed location area, it connects itself to the RAN and sends its new location to the CNC, which updates the location DB.
+When you change location areas, your UE (in RRC IDLE state) listen to the broadcast channel of the closer RAN.
+Because it understands it changed location area, it connects itself to the RAN and sends its new location to the CNC, which updates the location DB.
 
 Now, when Nicole calls you, even if you're not using your phone, the call is sent via the paging channel on the correct location area.
+
+> Well done traveler, you just finished that course 🎉.
 
 # ACRONYMS 😨
 
