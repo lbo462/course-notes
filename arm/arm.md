@@ -148,6 +148,14 @@ To say that in simple terms, it follows the same path but in reverse, in the rec
 
 > The circle is complete ✔️.
 
+## A bit more details about SMS
+
+What if the recipient has his phone off ?
+
+There exists a SMS center, connected to the out gateway which holds your SMS for a certain amount of time which depends on the country laws.
+
+Two protocols are in play : **CP** (*Connection Protocol*) and **RP** (*Relay Protocol*).
+
 # Service network, beyond the SMS
 
 Your SMS went though a lot of devices before reaching your recipient. But for you, it was only few seconds before your friend received it.
@@ -223,7 +231,7 @@ The resources repartition is a bit more complex than a simple grid. In fact, the
 The UL is transmitted by the UE to the RAN.
 
 The DL is transmitted by the RAN to the UE. 
-This grid contains specific channels such as the **DTCH** (*Dedicated Trafic Channel*) and the **DCCH** (*Dedicated Control Channel*) that we'll talk about later ([here](#rrc-connected))
+This grid contains specific channels such as the **DTCH** (*Dedicated Traffic Channel*) and the **DCCH** (*Dedicated Control Channel*) that we'll talk about later ([here](#rrc-connected))
 
 ## Random access
 
@@ -269,7 +277,7 @@ In the RRC IDLE state, no uplink is sent. That is easy to understand since no co
 
 Therefore, there's a downlink to consider on two specific channels : the **broadcast** and the **paging** channels.
 
-The broadcast channel is mainly used for sharing informations about an antenna. It could also be used for different purposes such as sending an SMS to every users connected to an antenna.
+The broadcast channel is mainly used for sharing information about an antenna. It could also be used for different purposes such as sending an SMS to every users connected to an antenna.
 Still, this is actually not used, at least in France, where "broadcast" messages are sent individually to each network user -_-
 
 The paging channel is used to locate the user at any point of time, wether he's connected or not. This is very useful is you want to be joined when no connection is on-going. There's two types of data sent on this channel : the **beacons** and the **serving call** (whenever someone tries to reach a UE, see [call control](#cc--call-control)).
@@ -277,17 +285,17 @@ The paging channel is used to locate the user at any point of time, wether he's 
 ### RRC CONNECTED
 
 Being in the RRC CONNECTED state means that the connection has been successfully completed.
-It means that you might be calling someone (maybe Nicole) or that you're scrolling social network on your 4/5G forfait.
+It means that you might be calling someone (maybe Nicole) or that you're scrolling social network on your 4/5G package.
 
 > The connections holds while data waits in the up-link or down-link buffer. When no data is to be sent, an **inactivity timer** starts. When the timer gets to zero, the RRC disconnect and the MS returns to the state RRC IDLE.
 
 #### UPLINK trafic
 
-Now, an uplink is to consider on two channels **DTCH** (*Dedicated Trafic Channel*) and **DCCH** (*Dedicated Control Channel*).
+Now, an uplink is to consider on two channels **DTCH** (*Dedicated Traffic Channel*) and **DCCH** (*Dedicated Control Channel*).
 
 The DTCH is the channel where all your data goes though.
 
-On the other side, the DCCH is the channel where controls trafic goes though. It gives informations about the buffer state (on the RAN side), the channel quality (of the downlink seen by the UE) and the quality of the other channels on the neighbor cells (see the [territory division section](#territory-division)).
+On the other side, the DCCH is the channel where controls traffic goes though. It gives information about the buffer state (on the RAN side), the channel quality (of the downlink seen by the UE) and the quality of the other channels on the neighbor cells (see the [territory division section](#territory-division)).
 With this information, the BSC knows how much blocks are required for the data it need to transmit and can adapt the modulation.
 
 > When the channel quality is low, the BSC changes the modulation with more redundancy
@@ -296,13 +304,13 @@ With this information, the BSC knows how much blocks are required for the data i
 > The RAN is the only entity that can make that kind of choice.
 > The UE only acts as an information reporter and waits for instructions.
 
-#### DOWNLINK trafic
+#### DOWNLINK traffic
 
 On the DL, we observe the same two channels :
 
 The DTCH is still the channel where all your data goes though.
 
-The DCCH channel gives informations about the channel, such as the modulation to use, the power, the resources blocks and so on. It a called a **scheduling**.
+The DCCH channel gives information about the channel, such as the modulation to use, the power, the resources blocks and so on. It a called a **scheduling**.
 
 Such as it was in the RRC IDLE state, the DL also contains the broadcast channel for the same purposes (see [RRC IDLE](#rrc-idle)).
 The difference lies within the paging channel. There's no more use for it since the user is connected. The Location DB contains the correct location of the user and it won't be a problem to reach him.
@@ -320,7 +328,7 @@ In fact, a full connection requires being in the state RRC CONNECTED (to be be c
 
 The PDCP allows an IP packet to be transformed into a new format.
 
-It compresses the IP header to reduce the trafic on the channel
+It compresses the IP header to reduce the traffic on the channel
 
 # Connection to the CN
 
@@ -376,6 +384,8 @@ Here's what the protocol stack looks like :
 
 ![](images/protocol-stack.jpg)
 
+> The **RLC** (*Radio Link Protocol*) is mainly used to fragmentate the messages.
+
 # CC : Call Control
 
 > This section is the continuation of the [RRC IDLE section](#rrc-idle).
@@ -411,6 +421,9 @@ This protocol is used to establish a connection between a calling user (here, Ni
 Once again, a scheme is better than a hundred words :
 
 ![](images/cc.jpg)
+
+The Nicole's CN make all the necessary verifications about the call authorizations, charges, etc.
+For example, it checks the country and the operator of the recipient : see [identifiers](#theres-more-to-say-about-identifiers).
 
 # Keep moving
 
@@ -512,47 +525,50 @@ Will you be brave enough to know them all ?
 
 | Acronym | Full name                                                |
 | ------- | -------------------------------------------------------- |
-| MS      | Mobile Station                                           |
-| SIM     | Subscriber Identify Module                               |
-| uSIM    | Universal SIM                                            |
-| eSIM    | Electronic SIM                                           |
-| MSISDN  | Mobile Station International Subscriber Directory Number |
-| IMSI    | International Mobile Subscriber Identity                 |
-| TMSI    | Temporary Mobile Subscriber Identity                     |
-| IMEI    | International Mobile Equipment Identity                  |
-| RNTI    | Radio Network Temporary Identifier                       |
-| BS      | Base Station                                             |
-| BTS     | Base Transceiver Station                                 |
-| BSC     | Base Station Controller                                  |
-| RNC     | Radio Network Controller                                 |
-| RRH     | Remote Radio Head                                        |
-| BBU     | Base Band Unit                                           |
-| MSC     | Mobile Switching Center                                  |
-| GMSC    | Gateway MSC                                              |
-| GPRS    | General Packet Radio Service                             |
-| SGCN    | Serving GPRS Support Node                                |
-| GGSN    | Gateway GPRS Support Node                                |
-| S-GW    | Serving Gateway                                          |
-| P-GW    | Packet Data Network Gateway                              |
 | AMF     | Access and Mobility Management Function                  |
-| UPF     | User Plane Function                                      |
-| MME     | Mobility Management Entity                               |
-| HLR     | Home Location Register                                   |
-| HSS     | Home Subscriber Server                                   |
-| LTE     | Long-Term Evolution                                      |
-| SMS     | Short Media Service                                      |
-| MMS     | Multimedia Messaging Service                             |
-| IMS     | IP Multimedia Subsystem                                  |
-| VoIP    | Voice over IP                                            |
+| BS      | Base Station                                             |
+| BBU     | Base Band Unit                                           |
+| BSC     | Base Station Controller                                  |
+| BTS     | Base Transceiver Station                                 |
 | BFF     | Best Friend Forever                                      |
-| RRC     | Radio Resource Control                                   |
-| RLC     | Radio Link Control                                       |
-| PDCP    | Packet Data Convergence Protocol                         |
-| RAR     | Random Access Response                                   |
+| CC      | Call Control                                             |
+| CP      | Connection Protocol                                      |
+| CQI     | Channel Quality Indicator                                |
 | DTCH    | Dedicated Traffic Channel                                |
 | DCCH    | Dedicated Control Channel                                |
-| CQI     | Channel Quality Indicator                                |
-| CC      | Call Control                                             |
+| (E)MM   | Enhanced Mobility Management                             |
+| eSIM    | Electronic SIM                                           |
+| GMSC    | Gateway MSC                                              |
+| GPRS    | General Packet Radio Service                             |
+| GGSN    | Gateway GPRS Support Node                                |
+| HLR     | Home Location Register                                   |
+| HSS     | Home Subscriber Server                                   |
+| IMS     | IP Multimedia Subsystem                                  |
+| IMSI    | International Mobile Subscriber Identity                 |
+| IMEI    | International Mobile Equipment Identity                  |
+| LTE     | Long-Term Evolution                                      |
+| MS      | Mobile Station                                           |
+| MMS     | Multimedia Messaging Service                             |
+| MME     | Mobility Management Entity                               |
+| MSC     | Mobile Switching Center                                  |
+| MSISDN  | Mobile Station International Subscriber Directory Number |
+| P-GW    | Packet Data Network Gateway                              |
+| PDCP    | Packet Data Convergence Protocol                         |
+| RP      | Relay Protocol                                           |
+| RAR     | Random Access Response                                   |
+| RRC     | Radio Resource Control                                   |
+| RLC     | Radio Link Control                                       |
+| RNC     | Radio Network Controller                                 |
+| RNTI    | Radio Network Temporary Identifier                       |
+| RRH     | Remote Radio Head                                        |
 | SM      | Session Management                                       |
 | SS      | Supplementary Source                                     |
-| (E)MM   | Enhanced Mobility Management                             |
+| SMS     | Short Media Service                                      |
+| SIM     | Subscriber Identify Module                               |
+| SGCN    | Serving GPRS Support Node                                |
+| S-GW    | Serving Gateway                                          |
+| TMSI    | Temporary Mobile Subscriber Identity                     |
+| uSIM    | Universal SIM                                            |
+| UPF     | User Plane Function                                      |
+| VoIP    | Voice over IP                                            |
+| VoLTE   | Voice over LTE                                           |
