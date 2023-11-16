@@ -364,7 +364,9 @@ Here, we have two protocols, each defining two states.
 That leads to four possible states.
 And because a hundred words couldn't explain best than a scheme, here's what we have :
 
-    TODO the scheme
+![](images/rrc-x-emm.jpg)
+
+The arrows represent the possible state changes.
 
 ## Summary
 
