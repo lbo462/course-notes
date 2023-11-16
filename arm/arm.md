@@ -410,7 +410,7 @@ This protocol is used to establish a connection between a calling user (here, Ni
 
 Once again, a scheme is better than a hundred words :
 
-    TODO scheme
+![](images/cc.jpg)
 
 # Keep moving
 
