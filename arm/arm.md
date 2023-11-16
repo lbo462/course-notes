@@ -272,29 +272,7 @@ Therefore, there's a downlink to consider on two specific channels : the **broad
 The broadcast channel is mainly used for sharing informations about an antenna. It could also be used for different purposes such as sending an SMS to every users connected to an antenna.
 Still, this is actually not used, at least in France, where "broadcast" messages are sent individually to each network user -_-
 
-The paging channel is used to locate the user at any point of time, wether he's connected or not. This is very useful is you want to be joined when no connection is on-going. There's two types of data sent on this channel : the **beacons** and the **serving call** (whenever someone tries to reach a UE, see [next section](#incoming-call)).
-
-#### Incoming call
-
-Let's illustrate the use of the paging channel with a new little story.
-
-Your **BFF** (*Best Friend Forever*), Nicole, is calling you while you walk in the street with your phone in your bag.
-Its starts to ring on Nicole's phone but your phone is still silent.
-
-Pause the time and let's observe what's happening while you're still unaware of that phone call. The Nicole's UE sent the information of that phone call to its operator CN though the RAN she's connected to. That information is received to your operator CN which knows where you are thanks to its Location DB. Once it found you in its register, it sends the information to the correct RAN which writes this information into its paging channel (here it comes).
-You're the target of the call. Hence, your UE starts a new connection has seen earlier to go to the state RRC CONNECTED state.
-
-It's only now that your phone starts to ring.
-So even if you're very fast to answer, Nicole still waited few seconds during your phone went from RRC IDLE to RRC CONNECTED.
-
-> Two things to note here :
->
-> If you were using your phone, the connection would already have been set-up.
-> Thus, Nicole would have waited less.
->
-> Moreover, it's possible that your CN didn't not know exactly where you were at that moment in time.
-> The things he knows for sure, is your location area, which is covered by multiple RAN.
-> If if would have been the case, the call would have been sent to every RAN in your location area (see the [territory division section](#territory-division)).
+The paging channel is used to locate the user at any point of time, wether he's connected or not. This is very useful is you want to be joined when no connection is on-going. There's two types of data sent on this channel : the **beacons** and the **serving call** (whenever someone tries to reach a UE, see [call control](#cc--call-control)).
 
 ### RRC CONNECTED
 
@@ -397,6 +375,42 @@ The EMM protocol allows a connection between the user domain and the CN and requ
 Here's what the protocol stack looks like :
 
 ![](images/protocol-stack.jpg)
+
+# CC : Call Control
+
+> This section is the continuation of the [RRC IDLE section](#rrc-idle).
+
+Let's illustrate the use of the paging channel with a new little story.
+
+Your **BFF** (*Best Friend Forever*), Nicole, is calling you while you walk in the street with your phone in your bag.
+Its starts to ring on Nicole's phone but your phone is still silent.
+
+Pause the time and let's observe what's happening while you're still unaware of that phone call. 
+The Nicole's UE sent the information of that phone call to its operator CN though the RAN she's connected to. 
+That information is received to your operator CN which knows where you are thanks to its Location DB. 
+Once it found you in its register, it sends the information to the correct RAN which writes this information into its paging channel (here it comes).
+You're the target of the call. Hence, your UE starts a new connection has seen earlier to go to the state RRC CONNECTED state.
+
+It's only now that your phone starts to ring.
+So even if you're very fast to answer, Nicole still waited few seconds during your phone went from RRC IDLE to RRC CONNECTED.
+
+> Two things to note here :
+>
+> If you were using your phone, the connection would already have been set-up.
+> Thus, Nicole would have waited less.
+>
+> Moreover, it's possible that your CN didn't not know exactly where you were at that moment in time.
+> The things he knows for sure, is your location area, which is covered by multiple RAN.
+> If if would have been the case, the call would have been sent to every RAN in your location area (see the [territory division section](#territory-division)).
+
+Let's detail a bit.
+It's time to talk about **CC** (*Call Control*).
+
+This protocol is used to establish a connection between a calling user (here, Nicole) and a called user (you, Alicia).
+
+Once again, a scheme is better than a hundred words :
+
+    TODO scheme
 
 # Keep moving
 
