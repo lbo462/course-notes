@@ -378,7 +378,7 @@ The EMM protocol allows a connection between the user domain and the CN and requ
 
 Here's what the protocol stack looks like :
 
-    TODO protocol stack scheme
+![](images/protocol-stack.jpg)
 
 # Keep moving
 
