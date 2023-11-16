@@ -272,7 +272,7 @@ Therefore, there's a downlink to consider on two specific channels : the **broad
 The broadcast channel is mainly used for sharing informations about an antenna. It could also be used for different purposes such as sending an SMS to every users connected to an antenna.
 Still, this is actually not used, at least in France, where "broadcast" messages are sent individually to each network user -_-
 
-The paging channel is used to locate the user at any point of time, wether he's connected or not. This is very useful is you want to be joined when no connection is on-going.
+The paging channel is used to locate the user at any point of time, wether he's connected or not. This is very useful is you want to be joined when no connection is on-going. There's two types of data sent on this channel : the **beacons** and the **serving call** (whenever someone tries to reach a UE, see [next section](#incoming-call)).
 
 #### Incoming call
 
@@ -340,7 +340,9 @@ In fact, a full connection requires being in the state RRC CONNECTED (to be be c
 
 ## PDCP : Packet Data Convergence Protocol
 
-    TODO
+The PDCP allows an IP packet to be transformed into a new format.
+
+It compresses the IP header to reduce the trafic on the channel
 
 # Connection to the CN
 
@@ -356,7 +358,23 @@ It defines two states :
 - EMM DETACH (disconnected from the CN)
 - EMM ATTACH (connected to the CN)
 
-Hence, we have to deal with two connected layers.
+Hence, we have to deal with two connected layers : see [RRC X (E)MM](#rrc-x-emm).
+
+Let's take a look at what happens during a connection :
+
+![](images/emm-attach.jpg)
+
+> Have you read the note about the identity request ?
+> This attack still exists today and is performed thanks to an IMSI catcher.
+> 
+> First, the attacker jams the network to keep only the 2G on.
+> When your UE tries to connect, it sends its IMSI which is caught by the IMSI catcher.
+> With your IMSI, the attacker can now impersonate you and sends spam SMS to all your contacts.
+>
+> When you receive spam SMS, don't insult the sender. He's probably just a victim of an IMSI catcher.
+> It often happens in large cities where the attackers drives with their IMSI catcher, jamming the network in their area to retrieve some IMSI.
+>
+> The solution would be to entirely revoke the 2G network but only time will make that possible.
 
 ## RRC x (E)MM
 
