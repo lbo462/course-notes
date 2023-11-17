@@ -7,6 +7,15 @@ Sources :
 - [Course on Moodle](https://moodle.insa-lyon.fr/course/view.php?id=1993)
 - [Mines Telecom course](https://lms.fun-mooc.fr/c4x/MinesTelecom/04001/asset/Support-Mooc-Semaine1A3__1_.pdf?fbclid=IwAR2x-M8uEiKbeXyirlpQQDEDMzVylUqdneQte3tpE1WyZVt-BP0nQjwl5vw)
 
+Thanks to : 
+
+- Julie BREUIL
+- Edgar BRUNAUD
+- Valentin ARMANET
+- and all the others ...
+
+who sent their notes
+
 # Sending a message though the mobile network
 
 Because mobile networks are no fun without stories, let's start a new one.
