@@ -329,7 +329,7 @@ The broadcast channel is mainly used for sharing information about an antenna.
 There's two types of data sent on this channel : the **beacons** and the **serving cell**.
 
 The beacons holds information about the RAN : location area, resources blocks, etc .
-The serving cell holds data about the cell (power, modulation, etc.).
+The serving cell holds data about the cell.
 
 It could also be used for different purposes such as sending an SMS to every users connected to an antenna.
 Still, this is actually not used, at least in France, where "broadcast" messages are sent individually to each network user -_-
