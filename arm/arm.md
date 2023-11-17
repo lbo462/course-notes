@@ -138,7 +138,7 @@ The CNC has a very important role and is connected to multiple databases and rou
 > The MS (Mobile Station) answers with a **SRES** (*Signed RESponse*). 
 > If the response is the correct response for the given challenge, the AuC returns its information from the Location DB.
 
-> Also note that the service gateway count the incoming packets to update the facturation DB.
+> Also note that the service gateway counts the incoming packets to update the facturation DB.
 
 The service gateway can now sends your message to the *out gateway*, which is basically a router. 
 In 2G, this device was a **gMSC** (*gateway Mobile Switching Center*) and in 3G, it was a **GGSN** (*Gateway GPRS Support Node*). 
@@ -183,7 +183,7 @@ They're directly sent from the BSC to the CNC.
 
 But what if the recipient has his phone off ?
 
-There exists a SMS center, connected to the out gateway which holds your SMS for a certain amount of time which depends on the country laws.
+There exists a **SMS center**, connected to the out gateway which holds your SMS for a certain amount of time which depends on the country laws.
 
 Two protocols are in play : **CP** (*Connection Protocol*) and **RP** (*Relay Protocol*).
 The CP is handled on your CN side while the RP is handled on your recipient CN side.
