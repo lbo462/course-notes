@@ -102,13 +102,22 @@ In 4G, this device was a **S-GW**, i.e. a *Serving GateWay* and in 5G, it was an
 
 After receiving a packet, it transmits it to the CN big boss : the **CNC**, the *Core Network Controller* 🤴.
 
+> Just a quick remark about that last sentence ...
+>
+> The packet is not always transmitted to the out gateway.
+> In fact, the use of sending the SMS to the CNC is for counting the SMS sent to charge the sender.
+> But, if your telephone package includes an unlimited amount of SMS, there's no need of counting.
+> In that case, your SMS is directly sent to the next entity, which is the *out gateway*.
+
 In 4G, the CNC was a **MME** (*Mobility Management Entity*). 
 In 5G, this device was an **AMF** (*Access and Mobility Management Function*). 
 
 > Note that the CNC only exists since the 4G. 
 > Before that, its functions were handled by the service gateway and the out gateway, which we'll talk about later. 
 
-The CNC is a very expensive device 💸💸. There are few CNC over the country and they process every single packet of the mobile network.
+The CNC is a very expensive device 💸💸. There are few CNC over the country (less than 10 in Fran ce) and they process every single packet of the mobile network.
+
+> Flashback and foreshadowing : the service and the out gateway are also few (around 10 in France).
 
 The CNC has a very important role and is connected to multiple databases and routers to do its job.
 
@@ -171,6 +180,7 @@ What if the recipient has his phone off ?
 There exists a SMS center, connected to the out gateway which holds your SMS for a certain amount of time which depends on the country laws.
 
 Two protocols are in play : **CP** (*Connection Protocol*) and **RP** (*Relay Protocol*).
+The CP is handled on your CN side while the RP is handled on your recipient CN side.
 
 # Service network, beyond the SMS
 
@@ -186,7 +196,7 @@ You want to use different services proposed by your operator.
 One of them is basically Internet 🌐 (that you should know about) but it can be the fixe-lined telephony (where advertisers used to call you), **VoIP** (*Voice over IP*) or the **IMS** (*IP Multimedia Subsystem*).
 
 > The IMS are services that operator tried to propose to replace some app such as social network, drives, games, etc.
-> Still, they couldn't compete against the already existing apps and almost no IMS are left on the market.
+> Still, they couldn't compete against the already existing apps and almost no IMS are left on the market, besides the **urgency calls**.
 
 To reach these services, your packets still follow the same path as previously for your SMS, but the out gateway sends your packet elsewhere, to the corresponding service.
 
@@ -310,11 +320,16 @@ That is easy to understand since no connection is up.
 Therefore, there's a downlink to consider on two specific channels : the **broadcast** and the **paging** channels.
 
 The broadcast channel is mainly used for sharing information about an antenna.
+There's two types of data sent on this channel : the **beacons** and the **serving cell**.
+
+The beacons holds information about the RAN : location area, resources blocks, etc .
+The serving cell holds data about the cell (power, modulation, etc.).
+
 It could also be used for different purposes such as sending an SMS to every users connected to an antenna.
 Still, this is actually not used, at least in France, where "broadcast" messages are sent individually to each network user -_-
 
 The paging channel is used to locate the user at any point of time, wether he's connected or not.
-This is very useful is you want to be joined when no connection is on-going. There's two types of data sent on this channel : the **beacons** and the **serving call** (whenever someone tries to reach a UE, see [call control](#cc--call-control)).
+This is very useful is you want to be joined when no connection is on-going. 
 
 ### RRC CONNECTED
 
@@ -332,7 +347,7 @@ Now, an uplink is to consider on two channels **DTCH** (*Dedicated Traffic Chann
 The DTCH is the channel where all your data goes though.
 
 On the other side, the DCCH is the channel where controls traffic goes though.
-It gives information about the buffer state (on the RAN side), the channel quality (of the downlink seen by the UE) and the quality of the other channels on the neighbor cells (see the [territory division section](#territory-division)).
+It gives information about the buffer state (on the RAN side), the channel quality (of the downlink seen by the UE), a.k.a the **CQI** (*Channel Quality Indicator*) and the quality of the other channels on the neighbor cells (see the [territory division section](#territory-division)).
 With this information, the BSC knows how much blocks are required for the data it need to transmit and can adapt the modulation.
 
 > When the channel quality is low, the BSC changes the modulation with more redundancy.
@@ -377,6 +392,8 @@ It compresses the IP header to reduce the traffic on the channel.
 The EMM protocol, such as RRC is a connected protocol.
 It is the layer just above RRC, same level as IP or the Voice protocol.
 This layer and all the ones above defines the **non-access stratum** while the belows layers are the **access stratum**.
+
+> The access stratum protocols are handled by the RAN while the non-access stratum protocols runs on the CN.
 
 The above layers can be **SMS** (*Short Media Service*), **SM** (*Session Management*), **SS** (*Supplementary Source*) or [**CC** (*Call Control*)](#cc--call-control).
 
@@ -424,6 +441,8 @@ Here's what the protocol stack looks like :
 ![](images/protocol-stack.jpg)
 
 > The **RLC** (*Radio Link Protocol*) is mainly used to fragmentate the messages.
+
+The above scheme simplifies things a big since the different presented protocols do not run on the same devices. 
 
 # CC : Call Control
 
@@ -498,6 +517,17 @@ To validate your choice, you should alter your phone configuration and turn on *
 
 To put it all in a nutshell, turn on roaming when you travel to foreign countries.
 
+> Depending on the contract between your operator and the foreign operator, your traffic won't follow the same path.
+> There's two possibilities :
+> 
+> The foreign operator do not send the packets to your operator but processes them itself and handle the charges.
+> This implies that your operator trusts the foreign operator.
+> It also depends on the distance between your country and the foreign country.
+>
+> The second possibility is the one described above.
+> The foreign country transmits all of your packets to your operator.
+> This can be problematic if the two countries are far away.
+
 ## Micro mobility
 
 Sending a SMS can be kind of fun ... kind of.
@@ -564,6 +594,7 @@ When you landed, you changed from a location area to another.
 That could also have happened if you changed location area in a different manner, but that one was spicier.
 
 When you change location areas, your UE (in RRC IDLE state) listen to the broadcast channel of the closer RAN.
+More especially, it listen the *beacons* of the closest RAN.
 Because it understands it changed location area, it connects itself to the RAN and sends its new location to the CNC, which updates the location DB.
 
 Now, when Nicole calls you, even if you're not using your phone, the call is sent via the paging channel on the correct location area.
