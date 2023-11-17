@@ -7,7 +7,7 @@ Sources :
 - [Course on Moodle](https://moodle.insa-lyon.fr/course/view.php?id=1993)
 - [Mines Telecom course](https://lms.fun-mooc.fr/c4x/MinesTelecom/04001/asset/Support-Mooc-Semaine1A3__1_.pdf?fbclid=IwAR2x-M8uEiKbeXyirlpQQDEDMzVylUqdneQte3tpE1WyZVt-BP0nQjwl5vw)
 
-# Sending a SMS though the mobile network
+# Sending a message though the mobile network
 
 Because mobile networks are no fun without stories, let's start a new one.
 
@@ -26,7 +26,10 @@ There's also a fancy name for your phone number : the *mobile station internatio
 
 There are a whole lot of identifiers but we'll talk about that later ([here](#theres-more-to-say-about-identifiers)).
 
-Now, let's send a **SMS** (*Short Media Service*). 
+Now, let's send a simple message.
+
+> Here, we won't talk about SMS since they're a specific case that will be handled later.
+
 If you want to achieve this, you should be close to an antenna. 
 Here, the antennas will are referred as **BTS** for *Base Transceiver Station*.
 
@@ -37,7 +40,7 @@ You're entering the **RAN**, the *Radio Access Network* !
 > But what's a *Base Station* ?
 
 A base station is usually composed of two elements : the BTS (the antenna) and a **BSC** (*Base Station Controller*). 
-It will be the entrypoint for your SMS. The SMS will be received by the BTS and treated by the BSC.
+It will be the entrypoint for your message. The message will be received by the BTS and treated by the BSC.
 
 ![](images/sms-ran.jpg)
 
@@ -58,7 +61,7 @@ For 5G, this device is called a **gNodeB**.
 > The BBU can be placed at a certain distance from the RRH, so that it can find its place in a small datacenter or a PoP (Point of Presence) where it can easily be managed.
 > But in fact, the BBU is usually placed next to its RRH, under the sun and the snow where it can die the fastest 😐.
 
-Now, what happens ? Your SMS was correctly received by the BTS that sent it to its BSC which makes your SMS go from the RAN to the **CN**, the *Core Network* !
+Now, what happens ? Your message was correctly received by the BTS that sent it to its BSC which makes your message go from the RAN to the **CN**, the *Core Network* !
 
 ### Territory division
 
@@ -100,14 +103,13 @@ The MSC was the device used in 2G. In 3G, this device was a **SGSN**, a *Serving
 
 In 4G, this device was a **S-GW**, i.e. a *Serving GateWay* and in 5G, it was an **UPF**, i.e. an *User Plane Function*.
 
-After receiving a packet, it transmits it to the CN big boss : the **CNC**, the *Core Network Controller* 🤴.
+After receiving a packet, it informs it to the CN big boss : the **CNC**, the *Core Network Controller* 🤴.
 
 > Just a quick remark about that last sentence ...
 >
-> The packet is not always transmitted to the out gateway.
-> In fact, the use of sending the SMS to the CNC is for counting the SMS sent to charge the sender.
-> But, if your telephone package includes an unlimited amount of SMS, there's no need of counting.
-> In that case, your SMS is directly sent to the next entity, which is the *out gateway*.
+> The packet is not always transmitted to the CNC.
+> If a connection was already on-going, the service gateways sends directly the message to the *out gateway*.
+> The use of informing the CNC is to create a tunnel between the UE and the the out gateway.
 
 In 4G, the CNC was a **MME** (*Mobility Management Entity*). 
 In 5G, this device was an **AMF** (*Access and Mobility Management Function*). 
@@ -136,7 +138,9 @@ The CNC has a very important role and is connected to multiple databases and rou
 > The MS (Mobile Station) answers with a **SRES** (*Signed RESponse*). 
 > If the response is the correct response for the given challenge, the AuC returns its information from the Location DB.
 
-The CNC can now sends your SMS to the *out gateway*, which is basically a router. 
+> Also note that the service gateway count the incoming packets to update the facturation DB.
+
+The service gateway can now sends your message to the *out gateway*, which is basically a router. 
 In 2G, this device was a **gMSC** (*gateway Mobile Switching Center*) and in 3G, it was a **GGSN** (*Gateway GPRS Support Node*). 
 They provided the CNC function. 
 In 4G, this device becomes a **P-GW** (*Packet Data Network Gateway*). 
@@ -146,7 +150,6 @@ In 5G, it's an UPF, the same as the service gateway.
 
 This router is connected to a DHCP server. 
 That's where an IP address can be given to your mobile station (your phone).
-But for the simple SMS you sent, there's no need.
 
 > We've seen three different devices for different generations with a lot of acronyms. 
 > Let's make a quick recap.
@@ -159,13 +162,13 @@ But for the simple SMS you sent, there's no need.
 
 ![](images/sms-cn.jpg)
 
-> **Wait**, should your SMS really get out by the out gateway ?
-> Why the CNC sent your SMS to the out gateway ?
+> **Wait**, should your message really get out by the out gateway ?
+> Why the CNC sent your message to the out gateway ?
 >
-> It did because you're sending an SMS to someone who have a different operator. 
-> Otherwise, It would have been sent back by the CNC to the service gateway and to the corresponding base station.
+> It did because you're sending a message to someone who have a different operator. 
+> Otherwise, It would have been sent back by the service gateway and to the corresponding base station.
 
-Ok, so where does the out gateway sends your precious SMS ?
+Ok, so where does the out gateway sends your precious message ?
 
 It is sent to the operator of your recipient.
 To be more precise, it's sent to the out gateway of its operator, then to the CNC and then to a base station that will notify your recipient.
@@ -173,21 +176,24 @@ To say that in simple terms, it follows the same path but in reverse, in the rec
 
 > The circle is complete ✔️.
 
-## A bit more details about SMS
+## The specific case of the SMS
 
-What if the recipient has his phone off ?
+The SMS is a specific case, since it's part of the control traffic.
+They're directly sent from the BSC to the CNC.
+
+But what if the recipient has his phone off ?
 
 There exists a SMS center, connected to the out gateway which holds your SMS for a certain amount of time which depends on the country laws.
 
 Two protocols are in play : **CP** (*Connection Protocol*) and **RP** (*Relay Protocol*).
 The CP is handled on your CN side while the RP is handled on your recipient CN side.
 
-# Service network, beyond the SMS
+# Service network, beyond simple messages
 
-Your SMS went though a lot of devices before reaching your recipient. 
+Your message went though a lot of devices before reaching your recipient. 
 But for you, it was only few seconds before your friend received it.
 
-But now, you don't want to send SMS anymore. 
+But now, you don't want to send simple messages anymore. 
 You want to use different services proposed by your operator.
 
 > Wait, what services ?
@@ -198,7 +204,7 @@ One of them is basically Internet 🌐 (that you should know about) but it can b
 > The IMS are services that operator tried to propose to replace some app such as social network, drives, games, etc.
 > Still, they couldn't compete against the already existing apps and almost no IMS are left on the market, besides the **urgency calls**.
 
-To reach these services, your packets still follow the same path as previously for your SMS, but the out gateway sends your packet elsewhere, to the corresponding service.
+To reach these services, your packets still follow the same path as previously for your message, but the out gateway sends your packet elsewhere, to the corresponding service.
 
 ![](images/services.jpg)
 
