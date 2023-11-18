@@ -11,6 +11,7 @@ Thanks to :
 
 - Julie BREUIL
 - Edgar BRUNAUD
+- Boris TESTUD
 - Valentin ARMANET
 - and all the others ...
 
@@ -163,11 +164,11 @@ That's where an IP address can be given to your mobile station (your phone).
 > We've seen three different devices for different generations with a lot of acronyms. 
 > Let's make a quick recap.
 
-| Common name                   | Description                                                                            | 2G                                     | 3G                               | 4G                                            | 5G                               |
-| ----------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------- | -------------------------------- | --------------------------------------------- | -------------------------------- |
-| Service gateway               | Router on the RAN side, connected to a lot of base stations                            | Mobile Switching Center (MSC)          | Serving GPRS Support Node (SGSN) | Serving Gateway (S-GW)                        | User Plane Function (UPF)        |
-| Core Network Controller (CNC) | Connected to multiple DB, process every incoming packets in the Core Network           | Does not exist                         | Does not exist                   | Mobility Management Entity (MME)  | Access and Mobility Management Function (AMF) |
-| Out gateway                   | Gateway to other operators. Connected to a DHCP server and have NAT functions for IPv4 | Gateway Mobile Switching Center (gMSC) | Gateway GPRS Support Node (GGSN) | Packet Data Network Gateway (P-GW)            | User Plane Function (UPF)        |
+| Common name                   | Description                                                                            | 2G                                     | 3G                               | 4G                                 | 5G                                            |
+| ----------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------- | -------------------------------- | ---------------------------------- | --------------------------------------------- |
+| Service gateway               | Router on the RAN side, connected to a lot of base stations                            | Mobile Switching Center (MSC)          | Serving GPRS Support Node (SGSN) | Serving Gateway (S-GW)             | User Plane Function (UPF)                     |
+| Core Network Controller (CNC) | Connected to multiple DB, process every control packets in the Core Network            | Does not exist                         | Does not exist                   | Mobility Management Entity (MME)   | Access and Mobility Management Function (AMF) |
+| Out gateway                   | Gateway to other operators. Connected to a DHCP server and have NAT functions for IPv4 | Gateway Mobile Switching Center (gMSC) | Gateway GPRS Support Node (GGSN) | Packet Data Network Gateway (P-GW) | User Plane Function (UPF)                     |
 
 ![](images/sms-cn.jpg)
 
@@ -180,7 +181,7 @@ That's where an IP address can be given to your mobile station (your phone).
 Ok, so where does the out gateway sends your precious message ?
 
 It is sent to the operator of your recipient.
-To be more precise, it's sent to the out gateway of its operator, then to the CNC and then to a base station that will notify your recipient.
+To be more precise, it's sent to the out gateway of its operator, then to the service gateway and then to a base station that will notify your recipient.
 To say that in simple terms, it follows the same path but in reverse, in the recipient's operator network.
 
 > The circle is complete ✔️.
@@ -283,8 +284,9 @@ In fact, there's two grids to consider : the **UL** (*Up-Link*) and **DL** (*Dow
 
 The UL is transmitted by the UE to the RAN.
 
-The DL is transmitted by the RAN to the UE. 
-This grid contains specific channels such as the **DTCH** (*Dedicated Traffic Channel*) and the **DCCH** (*Dedicated Control Channel*) that we'll talk about later ([here](#rrc-connected))
+The DL is transmitted by the RAN to the UE.
+
+These grids contains specific channels such as the **DTCH** (*Dedicated Traffic Channel*) and the **DCCH** (*Dedicated Control Channel*) that we'll talk about later ([here](#rrc-connected))
 
 ## Random access
 
@@ -410,7 +412,7 @@ This layer and all the ones above defines the **non-access stratum** while the b
 
 > The access stratum protocols are handled by the RAN while the non-access stratum protocols runs on the CN.
 
-The above layers can be **SMS** (*Short Media Service*), **SM** (*Session Management*), **SS** (*Supplementary Source*) or [**CC** (*Call Control*)](#cc--call-control).
+The above layers can be **SMS** (*Short Message Service*), **SM** (*Session Management*), **SS** (*Supplementary Source*) or [**CC** (*Call Control*)](#cc--call-control).
 
 It defines two states :
 - EMM DETACH (disconnected from the CN)
@@ -660,7 +662,7 @@ Will you be brave enough to know them all ?
 | RRH     | Remote Radio Head                                        |
 | SM      | Session Management                                       |
 | SS      | Supplementary Source                                     |
-| SMS     | Short Media Service                                      |
+| SMS     | Short Message Service                                    |
 | SIM     | Subscriber Identify Module                               |
 | SGCN    | Serving GPRS Support Node                                |
 | S-GW    | Serving Gateway                                          |
