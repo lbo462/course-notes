@@ -25,7 +25,7 @@ Because mobile networks are no fun without stories, let's start a new one.
 
 Your name's Alicia and you possess a mobile phone. 
 Here, your mobile phone will be referred to as a *mobile station* (**MS**) or more globally, a *user equipment* (**UE**). 
-In your phone, there's a **SIM** (*Subscriber Identify Module*) card.
+In your phone, there's a **SIM** (*Subscriber Identity Module*) card.
 
 ![](images/sms-user-domain.jpg)
 
@@ -663,7 +663,7 @@ Will you be brave enough to know them all ?
 | SM      | Session Management                                       |
 | SS      | Supplementary Source                                     |
 | SMS     | Short Message Service                                    |
-| SIM     | Subscriber Identify Module                               |
+| SIM     | Subscriber Identity Module                               |
 | SGCN    | Serving GPRS Support Node                                |
 | S-GW    | Serving Gateway                                          |
 | TMSI    | Temporary Mobile Subscriber Identity                     |
