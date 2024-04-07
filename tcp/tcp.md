@@ -284,3 +284,56 @@ Thus, the TCP sender can reduces its cwnd to prevent the future congestion.
 
 ECN avoids packets drops and reduces the delays due to retransmission so everyone's fine !\
 _Every one except OSI_ 😢
+
+## Where's security ? 🤫 Is it encrypted ?
+
+No 😐.
+
+Your reaction -> 😲 !
+
+TCP does not implement any security at all.
+Every messages we're discussing, it's all in clear.
+
+When TCP was created, the bearded males rejected the problem on the above layer : the application layer.
+This is not cool since it's against the scalability of applications development.
+More and more people are developing applications.
+Security should be there by default, for the sake of simplicity and security !
+
+That's why other bearded male created __TLS__ (_Transport Layer Security_), which is an evolution of SSL (_Secure Socket Layer_).
+TLS encrypt and decrypt the data exchanged through TCP.
+
+> TLS and classic TCP coexist in the real world.
+> They're usually on different ports : 80 for classic HTTP and 443 for HTTPS (with TLS).
+> That's the little green lock you have on your browser when surfing the web.
+>
+> Nowadays, every website is secured through HTTPS.
+> Your browser even warns you when this is not the case !
+
+### TLS in practice
+
+Here's the messages exchanged to build a secured TCP connection through TLS :
+
+![tls](images/tls.png)
+
+Let's see a bit in details the content of each of these messages ...
+
+The __ClientHello__ message contains :
+- The _protocol version_ ;
+- A _random number_ to generate encryptions keys ;
+- The _Cipher suites_ which is the list of supported cryptographic algorithms ;
+- The _compression algorithms_, often disabled ;
+- Some _extensions_ such as the __SNI__ (_Server Name Indication_)
+
+The __ServerHello__ message contains :
+- The answer to the _ClientHello_ ;
+- A _random number_ to generate encryptions keys ;
+- A _session ID_ to resume the session if needed
+
+The __Certificate__ authenticates the server to the client.
+It's based on a public key infrastructure that the client can check.
+The certificates are distributed by __Root Certifications Authorities__ (_CA_).
+
+A __MasterSecret__ is created on the client side with the server's public key with the selected cryptographic algorithm.
+This MasterSecret is then sent to the server.
+
+The server then answers with a __Finished__ message containing a __Message Authentication Code__ (_MAC_) and ensures the integrity of the messages.
