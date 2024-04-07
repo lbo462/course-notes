@@ -107,7 +107,7 @@ Maybe the ACK is lost, or maybe the SRTT was badly estimated.
 But still, default TCP waits for a timer based on the RTT before it considers a segment lost.
 This process is bettered by a particular TCP extension, named __fast retransmit__ that we'll talk about later on.
 
-## Slow start, congestion avoidance and tutti quanti
+## Slow start, congestion avoidance and TCP enhancements
 
 When TCP initiate a connection, it starts its __slow start__ process.
 This process consist in increasing the supposed cwnd exponentially until it reaches a threshold called __ssthresh__ (_slow start threshold_).
@@ -119,12 +119,15 @@ When a segment got lost, TCP adapts the ssthresh and resets the cwnd to start ov
 At this moment :
 `ssthresh = flight-size / 2` ; `cwnd = 1` and the slow start restarts.
 
+Now, let's talk about the enhancements provided in TCP.
+
 ## Fast retransmit
 
 This is a TCP enhancement created to better the retransmission method for the lost segments.
 
 Remember duplicated ACKs from the ACK section ?
 Fast retransmit considers that receiving __three__ identical duplicated ACK implies that a segment was lost, since the receiver didn't received it.
+Thus, the lost segment is retransmitted, of course.
 
 > Considering a segment lost after a single duplicated ACK is rude.
 > Maybe the channel disordered the segments, creating duplicate ACKs even when no segment is lost.
@@ -141,4 +144,61 @@ _"Duplicated ACKs implies that I start over the slow start process ?_
 _Isn't rude if I'm able to receive the ACKs ?_
 _The network should not be that congested ..."_
 And you would be right !
+Follow to the next section
 
+## Fast recovery 🤕
+
+__Fast recovery__ complements fast retransmit and considers that the network is not congested enough after three duplicate ACKs to start over the slow start process.
+Instead, fast recovery restarts from the congestion avoidance state setting cwnd to `ssthresh + number of duplicate ACKs received (ndup)` instead of `1`.
+
+Note that the ssthresh is still `ssthresh = flight-size / 2`
+
+# TCP options
+
+The previous section was about the TCP enhancements.
+This section is about TCP options.
+The options are optional and should be supported by both ends to be used.
+
+## Selective ACK
+
+__Selective ACKs__ (_SACK_) is a TCP option negotiated during the connection handshake.
+If set-up, the receiver won't create duplicated ACKs.
+Instead, it will ACK the highest continuous SN, as default TCP does, but it will also include the received segments in the TCP header.
+This way, the emitter can retransmit (through fast retransmit) only the missing segments.
+
+## Delayed ACK
+
+TCP can choose to delay ACK when the traffic is bidirectional, to use some piggybacking.
+Meaning that TCP waits for the application layer to have some data to send before ACKing a segment, to implement this data in the ACK segment, to reduce the cost of the header.
+
+Notwithstanding, one should send the ACKs after two consecutive segments received or if 500 ms elapsed, even if no data is to be sent.
+
+# TCP Algorithms
+
+Here, we'll cover a small list of the available TCP algorithms.
+If they're so much TCP algorithms, it's to solve different problems such as delays, congestions, speed, etc.
+
+The use of these algorithms might required a single end to support it, or both ends to support it and might require the routers to support it.
+To know more, check the amazing table from Wikipedia [here](https://en.wikipedia.org/wiki/TCP_congestion_control#Algorithms) (no Rick roll, I promise).
+
+## Nagle's algorithm
+
+Do you know the SSH protocol ?
+This application protocol creates a shell on a distant machine for you to manage it from a distance.
+If you never heard of it, you will probably heard of it when you'll start working in a company.
+
+Even if you already used SSH, you might not know how it works in details, and me neither.
+Nonetheless, what's important to know is that every input you make on that shell sends data to the remote machine.
+Meaning that it doesn't wait for you to press `Enter` to send data.
+If, when you press `a` on your keyboard, it displayed a `a` on the shell, it's because the remote machine answered with a `a` to your input.
+
+With that said, how could this be compatible with heavy headers for each ridiculous input ?
+
+Here comes a new challenger : __Nagle's algorithm !__\
+This algorithm solves the problem of the too small segments, such as the ones created by SSH.
+This algorithm waits for the application layer to have more data to send before sending a segment.
+A segment is sent when the buffer fills a full segment or if a segment was received and that the data can be sent through piggybacking.
+
+This looks a bit similar to the delayed ACKs but be careful, the two interacts really badly together !
+They were both created at the same period (around the 80s) by two different groups.
+When implementing a TCP solution, one should always deactivate one of the two, risking a constant 500ms delay otherwise !
