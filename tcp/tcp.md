@@ -11,11 +11,9 @@ The principle allowing this is the __end-to-end principle__, which is a part of 
 > This way, the network isn't aware of the content of the paquets going through it.
 > Nowadays, this principle is out-to-date since our phones and other user equipments are likely to be less powerful than our operator's routers.
 
-# Necessary vocabulary
+# Necessary vocabulary (don't skip)
 
 In order to start this course on solid grounds, one should define some terms we'll be using.
-
-__Don't skip this section__
 
 With TCP, we send __segments__, not ~~packets~~ since _packet_ is for the IP.
 
@@ -34,6 +32,9 @@ It is used for __congestion control__.
 A __sequence number__ (_SN_) is a number attributed for each TCP segment, to order them.
 It increases by one at each sent segment.
 To avoid identical starting sequence number, it's designed to start with a number depending on the clock time, the source and destination IP address and a random number, for security reasons.
+
+The __Round Trip Time__ (_RTT_) is the time between the sending and receiving a segment.
+This is used to know if a segment is _lost_ or _on-flight_.
 
 TCP is an acknowledged protocol.
 An __ACK__ (_ACKnowledgment_) acknowledges a received segment.
@@ -57,3 +58,22 @@ In more mathematical terms :
 
 > Highest_SN_transmittable = Highest_SN_ACKed + min(rwnd, cwnd)
 
+# From RTT to SRTT 🚀
+
+The __SRTT__ (Smoothed RTT) is the estimation of the RTT.
+This SRTT is estimated base on the previous estimated SRTT and the previous measured RTT and a factor _a_ :
+
+`SRTT[k] = a * SRTT[k-1] + (1-a) * RTT[k-1]`
+
+The factor _a_ is static and should be chosen regarding the channel stability :
+
+- Unstable channel => big _a_
+- Stable channel => small _a_
+
+It's almost impossible to estimate it correctly.
+Hence, two cases might occur :
+
+- The SRTT is underestimated (SRTT < RTT), leading to unwanted retransmissions.
+- The SRTT is overestimated (SRTT > RTT), leading to useless waiting times.
+
+Overall, it's best to overestimate the SRTT to avoid network congestions.
