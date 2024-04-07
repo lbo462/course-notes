@@ -161,11 +161,11 @@ Let's compare TCP without the enhancements and TCP with fast retransmit and fast
 
 Here's what the classic cwnd TCP looks like without the enhancements :
 
-![tcp-cwnd.png](images/tcp-cwnd.png)
+![tcp-cwnd](images/tcp-cwnd.png)
 
 And here's how it's improved with the above enhancements :
 
-![tcp-cwnd-enhanced.png](images/tcp-cwnd-enhanced.png)
+![tcp-cwnd-enhanced](images/tcp-cwnd-enhanced.png)
 
 The difference is clear !
 The cwnd is higher is average with the enhancements.
@@ -230,7 +230,7 @@ TCP CUBIC defines a new variable : __W_max__ which is the window size just befor
 Here how the algorithm works ...\
 If the congestion (cwnd) reaches W_max, one sets `cwnd = W_max / 2` and makes cwnd reach W_max super fast, leading to a cubic function.
 
-![tcp-cubic.png](images/tcp-cubic.png)
+![tcp-cubic](images/tcp-cubic.png)
 
 ### TCP BBR
 
@@ -252,7 +252,7 @@ Here's how it works ...
 
 Here's the targeted point for the TCP BBR :
 
-![bbr.png](images/bbr.png)
+![bbr](images/bbr.png)
 
 ## How to break the end-to-end principle ⛓️
 
@@ -337,3 +337,67 @@ A __MasterSecret__ is created on the client side with the server's public key wi
 This MasterSecret is then sent to the server.
 
 The server then answers with a __Finished__ message containing a __Message Authentication Code__ (_MAC_) and ensures the integrity of the messages.
+
+This security solution works as well as excepted.
+Notwithstanding, it's slow 😕
+
+## How to code a client / server communication ? 👨‍💻
+
+Everything we saw previously about TCP was already coded by people way smarter than you and me.
+Still, one might need to start a TCP or UDP server on its own, for fun or sadomasochism.
+
+We'll present here the simplest way to build a TCP or UDP client / server communication using widely used methods present in every respectable coding language, through the __Socket API__.
+
+_Just a quic note for later ..._
+_QUIC is not handled by the the Socket API._
+_I know that this is foreshadowing and I hate to do so but I had too!_
+
+The scheme are self-explanatory and you'll surely find a lot of example on the wide world web.
+
+### TCP client / server
+
+![tcp-client-server](images/tcp-client-server.png)
+
+### UDP client / server
+
+![udp-client-server](images/udp-client-server.png)
+
+## When the biggest IT company faces daily problems
+
+Nowadays, almost all the traffic is HTTP traffic, thus mounted on TCP.
+A protocol that blocks future segment if a single one got lost (__Head OF Line blocking__, aka _HOL blocking_).
+That is unwanted in the case of streams or loading web pages.
+
+The traffic often goes through a single TCP socket for multiple streams which goes against the current policy of security through traffic filtering, for VPN, NATs, firewalls, etc.
+
+And the Internet is growing old bones.
+It's almost impossible to propose a new backward-compatible TCP versions and totally impossible to implement a new transport protocol at the OS level, at least for us little humans.
+This is the __Internet ossification__.
+
+These are common issues, and Google decided to take a leap of faith to solve them.
+Probably not for charity but because it needed a solution !
+And this answered is called __QUIC__ !
+
+### QUIC, not QUICK 🍟
+
+QUIC is a new transport layer developed by Google released in 2012 and made public in 2013.
+QUIC workarounds the Internet ossification by implementing itself at the user level over UDP. 
+
+QUIC integrates the classic TCP congestion control, with Selective ACKs.
+But it does way more than that.
+
+It integrates TLS in the TCP three-ways-handshake to reduce the connection delays.
+The drawback it that it requires every TCP traffic to integrate TLS, even when not necessary.
+
+QUIC defines a __connection ID__ instead of the TCP socket, allowing a user to switch its connection between IP addresses and network interfaces, which was impossible with the TCP socket bounded to an address and interface.
+This also allows resuming a previous connection.
+
+Even if every streams are going through a same connection, QUIC implements flow control to control each streams independently.
+This also prevents HOL blocking.
+
+QUIC also uses a single segment identifier, even for retransmissions, easing the RTT measurements.
+
+When creating a new QUIC connection, many cases can occur :
+- The server is known to the client and there was a previous QUIC and TLS session. In this case, __0-RTT__ (no round trip) are required to talk to the server !
+- The TLS key can be reused but there was no QUIC session. Only __1-RTT__ (a single round trip) is required to establish the session.
+- Worst-case scenario, everything should be setup, __2-RTT__ (two round trips) are required.
