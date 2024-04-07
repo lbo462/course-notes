@@ -5,6 +5,8 @@ Author: **LBO** 🥖
 Sources:
   - [Course on Moodle](https://moodle.insa-lyon.fr/course/view.php?id=5794)
   - [Wikipedia / TCP Congestion Control](https://en.wikipedia.org/wiki/TCP_congestion_control)
+  - [Wikipedia / Algorithme TCP](https://fr.wikipedia.org/wiki/Algorithme_TCP)
+  - [Rick Astley](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
 
 _Every newly defined terms are written in __bold__._
 _If a term is not __bold__, either it was defined previously or it's too obvious to be defined._
@@ -225,7 +227,60 @@ It considers that the network congestion is almost constant through time.
 
 TCP CUBIC defines a new variable : __W_max__ which is the window size just before the last reduction, that we'll talk about now.
 
-Here how the algorithm works :\
+Here how the algorithm works ...\
 If the congestion (cwnd) reaches W_max, one sets `cwnd = W_max / 2` and makes cwnd reach W_max super fast, leading to a cubic function.
 
 ![tcp-cubic.png](images/tcp-cubic.png)
+
+### TCP BBR
+
+__BBR__ stands for _Bottleneck Bandwidth and Round-trip propagation time_.
+
+To talk about this algorithm, let's define how the network can be.
+There's several possibilities :
+
+- The network is under-utilized ;
+- The network is over-utilized, meaning that at least one link is at its max capacity and one or more routers are buffering ;
+- The network is saturated, meaning that at least one router has its buffer full and starts to drop segments.
+
+The objective of the BBR algorithm is to find the optimal spot to use the network at its max capacity, between an under-utilized and a over-utilized network.
+To know what's the actual state of the network, TCP BBR probes the RTT at regular intervals.
+
+Here's how it works ...
+- If the RTT is contant, the network is under-utilized, so increase the transmission rate.
+- If the RTT increases, the network is over-utilized, so pace the transmission rate.
+
+Here's the targeted point for the TCP BBR :
+
+![bbr.png](images/bbr.png)
+
+## How to break the end-to-end principle ⛓️
+
+Respecting the end-to-end principe is nice and all but as you can expect, it's not that optimal.
+One wants that the expensive operator's routers do at least a part of the job.
+That's why comes __network-assisted solutions__, beyond the end-to-end principe !
+
+In the next sections, we'll talk about some of these network-assisted solutions to enhance TCP to an other level 🚀
+
+### Random Early Detection
+
+__Random Early Detection__ (_RED_) happens at the router level and manages IP packets queues, by dropping some when the amount of IP packets in the queue reaches a certain threshold.
+
+_Note that not every IP packets are dropped, only few depending on a certain probability._
+
+This behavior will affect the TCP senders that will decrease its cwnd and go back to slow-start or congestion-avoidance state, reducing the network usage before the congestion !
+
+> Also note that this process is an IP-level process.
+> We don't talk segments, but packets.
+> Thus, this is a cross-layer mechanism, not very OSI friendly !
+
+### Explicit Congestion Notification
+
+__Explicit Congestion Notification__ (_ECN_) works in a similar way as RED with a queue and a threshold.
+Instead of dropping IP packets, it marks them by changing two bits in the Type-Of-Service section of the IP header.
+
+TCP then inspect the IP header and is able to know that a router queued too much packets and that the congestion is near.
+Thus, the TCP sender can reduces its cwnd to prevent the future congestion.
+
+ECN avoids packets drops and reduces the delays due to retransmission so everyone's fine !\
+_Every one except OSI_ 😢
