@@ -18,7 +18,7 @@ The principle allowing this is the __end-to-end principle__, which is a part of 
 > This way, the network isn't aware of the content of the paquets going through it.
 > Nowadays, this principle is out-to-date since our phones and other user equipments are likely to be less powerful than our operator's routers.
 
-# Necessary vocabulary (don't skip)
+## Necessary vocabulary (don't skip)
 
 In order to start this course on solid grounds, one should define some terms we'll be using.
 
@@ -53,7 +53,7 @@ This is called __piggybacking__.
 TCP defines the __flight size__ as the number of non-ACKed segments, supposing the lost or on-flight segments.
 __This is no cwnd !__
 
-# ACKed or not ACKed ?
+## ACKed or not ACKed ?
 
 We will talk a bit more about ACK in the future of this lesson but one needs to know that TCP only acknowledges the last continuous sequence number.
 
@@ -74,7 +74,7 @@ In more mathematical terms :
 
 > Highest_SN_transmittable = Highest_SN_ACKed + min(rwnd, cwnd)
 
-# From RTT to SRTT 🚀
+## From RTT to SRTT 🚀
 
 The __SRTT__ (Smoothed RTT) is the estimation of the RTT.
 This SRTT is estimated base on the previous estimated SRTT and the previous measured RTT and a factor _a_ :
@@ -94,7 +94,7 @@ Hence, two cases might occur :
 
 Overall, it's best to overestimate the SRTT to avoid network congestions.
 
-# Congestion control 🚗🚘💥🚙💢
+## Congestion control 🚗🚘💥🚙💢
 
 Before controlling the congestion, TCP needs to know when congestion occurs !
 Remember that TCP was invented before the wireless communications, in a time were channels were pretty stables.
@@ -121,7 +121,7 @@ At this moment :
 
 Now, let's talk about the enhancements provided in TCP.
 
-## Fast retransmit
+### Fast retransmit
 
 This is a TCP enhancement created to better the retransmission method for the lost segments.
 
@@ -146,34 +146,49 @@ _The network should not be that congested ..."_
 And you would be right !
 Follow to the next section
 
-## Fast recovery 🤕
+### Fast recovery 🤕
 
 __Fast recovery__ complements fast retransmit and considers that the network is not congested enough after three duplicate ACKs to start over the slow start process.
 Instead, fast recovery restarts from the congestion avoidance state setting cwnd to `ssthresh + number of duplicate ACKs received (ndup)` instead of `1`.
 
 Note that the ssthresh is still `ssthresh = flight-size / 2`
 
-# TCP options
+---
+
+Let's compare TCP without the enhancements and TCP with fast retransmit and fast recovery.
+
+Here's what the classic cwnd TCP looks like without the enhancements :
+
+![tcp-cwnd.png](images/tcp-cwnd.png)
+
+And here's how it's improved with the above enhancements :
+
+![tcp-cwnd-enhanced.png](images/tcp-cwnd-enhanced.png)
+
+The difference is clear !
+The cwnd is higher is average with the enhancements.
+
+## TCP options
 
 The previous section was about the TCP enhancements.
 This section is about TCP options.
 The options are optional and should be supported by both ends to be used.
 
-## Selective ACK
+### Selective ACK
 
 __Selective ACKs__ (_SACK_) is a TCP option negotiated during the connection handshake.
 If set-up, the receiver won't create duplicated ACKs.
 Instead, it will ACK the highest continuous SN, as default TCP does, but it will also include the received segments in the TCP header.
 This way, the emitter can retransmit (through fast retransmit) only the missing segments.
 
-## Delayed ACK
+### Delayed ACK
 
 TCP can choose to delay ACK when the traffic is bidirectional, to use some piggybacking.
 Meaning that TCP waits for the application layer to have some data to send before ACKing a segment, to implement this data in the ACK segment, to reduce the cost of the header.
 
 Notwithstanding, one should send the ACKs after two consecutive segments received or if 500 ms elapsed, even if no data is to be sent.
 
-# TCP Algorithms
+## TCP Algorithms
 
 Here, we'll cover a small list of the available TCP algorithms.
 If they're so much TCP algorithms, it's to solve different problems such as delays, congestions, speed, etc.
@@ -181,7 +196,7 @@ If they're so much TCP algorithms, it's to solve different problems such as dela
 The use of these algorithms might required a single end to support it, or both ends to support it and might require the routers to support it.
 To know more, check the amazing table from Wikipedia [here](https://en.wikipedia.org/wiki/TCP_congestion_control#Algorithms) (no Rick roll, I promise).
 
-## Nagle's algorithm
+### Nagle's algorithm
 
 Do you know the SSH protocol ?
 This application protocol creates a shell on a distant machine for you to manage it from a distance.
@@ -202,3 +217,15 @@ A segment is sent when the buffer fills a full segment or if a segment was recei
 This looks a bit similar to the delayed ACKs but be careful, the two interacts really badly together !
 They were both created at the same period (around the 80s) by two different groups.
 When implementing a TCP solution, one should always deactivate one of the two, risking a constant 500ms delay otherwise !
+
+### TCP CUBIC
+
+__TCP CUBIC__ is the default algorithm for TCP.
+It considers that the network congestion is almost constant through time.
+
+TCP CUBIC defines a new variable : __W_max__ which is the window size just before the last reduction, that we'll talk about now.
+
+Here how the algorithm works :\
+If the congestion (cwnd) reaches W_max, one sets `cwnd = W_max / 2` and makes cwnd reach W_max super fast, leading to a cubic function.
+
+![tcp-cubic.png](images/tcp-cubic.png)
