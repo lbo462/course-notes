@@ -17,30 +17,34 @@ Hence, TCP was created such that it's able to work while part of the network is 
 The principle allowing this is the __end-to-end principle__, which is a part of the net neutrality law.
 
 > The end-to-end principle states that all the work and computations should be done at each ends of a communication.
-> This way, the network isn't aware of the content of the paquets going through it.
+> This way, the network isn't aware of the content of the data going through it.
 > Nowadays, this principle is out-to-date since our phones and other user equipments are likely to be less powerful than our operator's routers.
 
 ## Necessary vocabulary (don't skip)
 
 In order to start this course on solid grounds, one should define some terms we'll be using.
 
-With TCP, we send __segments__, not ~~packets~~ since _packet_ is for the IP.
+With TCP, we send __segments__, not ~~packets~~ since _packet_ is for the IP layer.
 
 The __MSS__ is the _Maximum Segment Size_, which is the second layer MTU equivalent for the forth layer on the OSI model.
 
-The __flux control__ is control of the segment flux such that the emitters adapts its speed with respect to its receiver.
+The __flux control__ is the control of the segment flux such that the emitters adapts its speed with respect to its receiver.
 
-The __congestion control__ the control of the congestion defined to avoid network congestion without the human intervention.
+The __congestion control__ is the control of the congestion defined to avoid network congestion without the human intervention.
 
 The __Receiver Window__ (_rwdn_ or _awnd_ for __Advertised Window__) is the maximum amount of segments that the host can receive for each time slot.
 It is used for __flux control__.
+The receiver usually advertises this window to its sender.
 
 The __Congestion Window__ (_cwnd_) is the maximum amount of segments that the network can handle simultaneously.
 It is used for __congestion control__.
+Sadly, this window changes through time and depends on the whole network.
+No device is able to know its correct value for a present instant.
+Instead, TCP will always try to approximate it through different methods and algorithms that we'll see later in this course.
 
 A __sequence number__ (_SN_) is a number attributed for each TCP segment, to order them.
 It increases by one at each sent segment.
-To avoid identical starting sequence number (__ISN__, _Initial Sequence Number_), it's designed to start with a number depending on the clock time, the source and destination IP address and a random number, for security reasons.
+To avoid identical starting sequence number (__Initial Sequence Number__, _ISN_), it's designed to start with a number depending on the clock time, the source and destination IP address and a random number, for security reasons.
 
 > The ISN is sent in the SYN segment during the handshake.
 
@@ -78,8 +82,8 @@ In more mathematical terms :
 
 ## From RTT to SRTT 🚀
 
-The __SRTT__ (Smoothed RTT) is the estimation of the RTT.
-This SRTT is estimated base on the previous estimated SRTT and the previous measured RTT and a factor _a_ :
+The __SRTT__ (Smoothed RTT) is the estimation of the RTT by the TCP sender.
+This SRTT is estimated based on the previous estimated SRTT and the previous measured RTT and a factor _a_ :
 
 `SRTT[k] = a * SRTT[k-1] + (1-a) * RTT[k-1]`
 
@@ -99,12 +103,12 @@ Overall, it's best to overestimate the SRTT to avoid network congestions.
 ## Congestion control 🚗🚘💥🚙💢
 
 Before controlling the congestion, TCP needs to know when congestion occurs !
-Remember that TCP was invented before the wireless communications, in a time were channels were pretty stables.
+Remember that TCP was invented before the wireless communications, in a time were channels were pretty stable.
 Hence, it considers that a lost segment implies congestion.
 That's rude, I agree I agree I agree 🐺
 
 Now the question _"When do I know that a segment was lost ?"_ raises.
-Not receiving a ACK doesn't imply that the segment was lost.
+Not receiving an ACK doesn't imply that the segment was lost.
 Maybe the ACK is lost, or maybe the SRTT was badly estimated.
 But still, default TCP waits for a timer based on the RTT before it considers a segment lost.
 This process is bettered by a particular TCP extension, named __fast retransmit__ that we'll talk about later on.
@@ -120,6 +124,10 @@ This moment is called __congestion avoidance__.
 When a segment got lost, TCP adapts the ssthresh and resets the cwnd to start over the slow start.
 At this moment :
 `ssthresh = flight-size / 2` ; `cwnd = 1` and the slow start restarts.
+
+Here's what it looks like :
+
+![tcp-cwnd](images/tcp-cwnd.png)
 
 Now, let's talk about the enhancements provided in TCP.
 
@@ -158,35 +166,32 @@ Note that the ssthresh is still `ssthresh = flight-size / 2`
 ---
 
 Let's compare TCP without the enhancements and TCP with fast retransmit and fast recovery.
-
-Here's what the classic cwnd TCP looks like without the enhancements :
-
-![tcp-cwnd](images/tcp-cwnd.png)
-
-And here's how it's improved with the above enhancements :
+We previously saw a graph for the non-enhanced version of TCP.
+Here's how it's improved with the above enhancements :
 
 ![tcp-cwnd-enhanced](images/tcp-cwnd-enhanced.png)
 
 The difference is clear !
-The cwnd is higher is average with the enhancements.
+The cwnd is higher in average with the enhancements.
 
 ## TCP options
 
 The previous section was about the TCP enhancements.
 This section is about TCP options.
-The options are optional and should be supported by both ends to be used.
+The options are optional 🤓 and should be supported by both ends to be used.
 
 ### Selective ACK
 
 __Selective ACKs__ (_SACK_) is a TCP option negotiated during the connection handshake.
 If set-up, the receiver won't create duplicated ACKs.
-Instead, it will ACK the highest continuous SN, as default TCP does, but it will also include the received segments in the TCP header.
+Instead, it will ACK the highest continuous SN, as default TCP does, but it will also include the received SN in the TCP header.
 This way, the emitter can retransmit (through fast retransmit) only the missing segments.
 
 ### Delayed ACK
 
 TCP can choose to delay ACK when the traffic is bidirectional, to use some piggybacking.
 Meaning that TCP waits for the application layer to have some data to send before ACKing a segment, to implement this data in the ACK segment, to reduce the cost of the header.
+_That's piggybacking!_
 
 Notwithstanding, one should send the ACKs after two consecutive segments received or if 500 ms elapsed, even if no data is to be sent.
 
@@ -195,8 +200,8 @@ Notwithstanding, one should send the ACKs after two consecutive segments receive
 Here, we'll cover a small list of the available TCP algorithms.
 If they're so much TCP algorithms, it's to solve different problems such as delays, congestions, speed, etc.
 
-The use of these algorithms might required a single end to support it, or both ends to support it and might require the routers to support it.
-To know more, check the amazing table from Wikipedia [here](https://en.wikipedia.org/wiki/TCP_congestion_control#Algorithms) (no Rick roll, I promise).
+The use of these algorithms might requires a single end to support it, or both ends to support it and might even requires the routers to support it.
+To know more, check the amazing table from Wikipedia [here](https://en.wikipedia.org/wiki/TCP_congestion_control#Algorithms) (no rickroll, I promise).
 
 ### Nagle's algorithm
 
@@ -207,12 +212,12 @@ If you never heard of it, you will probably heard of it when you'll start workin
 Even if you already used SSH, you might not know how it works in details, and me neither.
 Nonetheless, what's important to know is that every input you make on that shell sends data to the remote machine.
 Meaning that it doesn't wait for you to press `Enter` to send data.
-If, when you press `a` on your keyboard, it displayed a `a` on the shell, it's because the remote machine answered with a `a` to your input.
+If, when you press `a` on your keyboard, it displayed an `a` on the shell because the remote machine answered with an `a` to your input.
 
 With that said, how could this be compatible with heavy headers for each ridiculous input ?
 
 Here comes a new challenger : __Nagle's algorithm !__\
-This algorithm solves the problem of the too small segments, such as the ones created by SSH.
+This algorithm solves the problem of the small segments, such as the ones created by SSH.
 This algorithm waits for the application layer to have more data to send before sending a segment.
 A segment is sent when the buffer fills a full segment or if a segment was received and that the data can be sent through piggybacking.
 
@@ -236,7 +241,7 @@ If the congestion (cwnd) reaches W_max, one sets `cwnd = W_max / 2` and makes cw
 
 __BBR__ stands for _Bottleneck Bandwidth and Round-trip propagation time_.
 
-To talk about this algorithm, let's define how the network can be.
+To talk about this algorithm, let's define how the network utilization can be.
 There's several possibilities :
 
 - The network is under-utilized ;
@@ -284,6 +289,7 @@ Thus, the TCP sender can reduces its cwnd to prevent the future congestion.
 
 ECN avoids packets drops and reduces the delays due to retransmission so everyone's fine !\
 _Every one except OSI_ 😢
+_(and the TCP end-to-end principle)_
 
 ## Where's security ? 🤫 Is it encrypted ?
 
@@ -292,17 +298,18 @@ No 😐.
 Your reaction -> 😲 !
 
 TCP does not implement any security at all.
-Every messages we're discussing, it's all in clear.
+Every messages we're discussing ...
+it's all in clear.
 
 When TCP was created, the bearded males rejected the problem on the above layer : the application layer.
 This is not cool since it's against the scalability of applications development.
 More and more people are developing applications.
-Security should be there by default, for the sake of simplicity and security !
+Security should be there by default, for the sake of simplicity __and security__ !
 
 That's why other bearded male created __TLS__ (_Transport Layer Security_), which is an evolution of SSL (_Secure Socket Layer_).
-TLS encrypt and decrypt the data exchanged through TCP.
+TLS encrypts and decrypts the data exchanged through TCP.
 
-> TLS and classic TCP coexist in the real world.
+> TLS and classic TCP coexists in the real world.
 > They're usually on different ports : 80 for classic HTTP and 443 for HTTPS (with TLS).
 > That's the little green lock you have on your browser when surfing the web.
 >
@@ -319,14 +326,14 @@ Let's see a bit in details the content of each of these messages ...
 
 The __ClientHello__ message contains :
 - The _protocol version_ ;
-- A _random number_ to generate encryptions keys ;
-- The _Cipher suites_ which is the list of supported cryptographic algorithms ;
+- A _random number_ to generate encryption keys ;
+- The _Cipher suites_ which is the list of supported cryptographic algorithms by the client ;
 - The _compression algorithms_, often disabled ;
 - Some _extensions_ such as the __SNI__ (_Server Name Indication_)
 
 The __ServerHello__ message contains :
 - The answer to the _ClientHello_ ;
-- A _random number_ to generate encryptions keys ;
+- A _random number_ to generate encryption keys ;
 - A _session ID_ to resume the session if needed
 
 The __Certificate__ authenticates the server to the client.
@@ -364,9 +371,12 @@ The scheme are self-explanatory and you'll surely find a lot of example on the w
 
 ## When the biggest IT company faces daily problems
 
-Nowadays, almost all the traffic is HTTP traffic, thus mounted on TCP.
+Nowadays, almost all the traffic is HTTP(s) traffic, thus mounted on TCP.
 A protocol that blocks future segment if a single one got lost (__Head OF Line blocking__, aka _HOL blocking_).
 That is unwanted in the case of streams or loading web pages.
+
+> Nobody cares if some frames of a stream are lost, or if a small section of website can't be displayed.
+> No one wants to stop the stream waiting for the frame or blocking a whole webpage to display an ad at the bottom-left of the page! 
 
 The traffic often goes through a single TCP socket for multiple streams which goes against the current policy of security through traffic filtering, for VPN, NATs, firewalls, etc.
 
@@ -380,14 +390,14 @@ And this answered is called __QUIC__ !
 
 ### QUIC, not QUICK 🍟
 
-QUIC is a new transport layer developed by Google released in 2012 and made public in 2013.
+QUIC is a transport layer developed by Google released in 2012 and made public in 2013.
 QUIC workarounds the Internet ossification by implementing itself at the user level over UDP. 
 
 QUIC integrates the classic TCP congestion control, with Selective ACKs.
 But it does way more than that.
 
 It integrates TLS in the TCP three-ways-handshake to reduce the connection delays.
-The drawback it that it requires every TCP traffic to integrate TLS, even when not necessary.
+The drawback is that it requires every TCP traffic to integrate TLS, even when not necessary.
 
 QUIC defines a __connection ID__ instead of the TCP socket, allowing a user to switch its connection between IP addresses and network interfaces, which was impossible with the TCP socket bounded to an address and interface.
 This also allows resuming a previous connection.
@@ -398,6 +408,8 @@ This also prevents HOL blocking.
 QUIC also uses a single segment identifier, even for retransmissions, easing the RTT measurements.
 
 When creating a new QUIC connection, many cases can occur :
-- The server is known to the client and there was a previous QUIC and TLS session. In this case, __0-RTT__ (no round trip) are required to talk to the server !
+- The server is known to the client and there was a previous QUIC and TLS session. In this case, __0-RTT__ (no round trips) are required to talk to the server !
 - The TLS key can be reused but there was no QUIC session. Only __1-RTT__ (a single round trip) is required to establish the session.
 - Worst-case scenario, everything should be setup, __2-RTT__ (two round trips) are required.
+
+In 85% of the cases, the connections are __0-RTT__.
