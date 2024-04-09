@@ -7,6 +7,7 @@ Sources:
   - [Wikipedia / TCP Congestion Control](https://en.wikipedia.org/wiki/TCP_congestion_control)
   - [Wikipedia / Algorithme TCP](https://fr.wikipedia.org/wiki/Algorithme_TCP)
   - [Rick Astley](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
+  - [GeeksForGeeks / Piggybacking](https://www.geeksforgeeks.org/piggybacking-in-computer-networks/)
 
 _Every newly defined terms are written in __bold__._
 _If a term is not __bold__, either it was defined previously or it's too obvious to be defined._
@@ -55,6 +56,9 @@ TCP is an acknowledged protocol.
 An __ACK__ (_ACKnowledgment_) acknowledges a received segment.
 An ACK can contains some data.
 This is called __piggybacking__.
+
+> _Piggybacking_ is the technique of delaying outgoing acknowledgment and attaching it to the next data packet.
+> Find more details [here](https://www.geeksforgeeks.org/piggybacking-in-computer-networks/).
 
 TCP defines the __flight size__ as the number of non-ACKed segments, supposing the lost or on-flight segments.
 __This is no cwnd !__
