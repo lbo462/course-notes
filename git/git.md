@@ -1,3 +1,11 @@
+# ⚠️ DEPRECATED, get out of here !
+
+_Deprecated_ is not a very appropriate word, but this doc has been moved to here -> https://github.com/lbo462/git-course
+
+Please, read this out there as this place will vanish some day ...
+
+---
+
 # Git and GitHub
 
 Author: **LBO** 🥖
